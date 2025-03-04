@@ -23,7 +23,7 @@ const About = () => {
           <div className="md:w-1/2">
           <h2 className="text-3xl font-bold mb-8">About Me</h2>
             <p className="text-lg mb-4">
-              Hi, I'm Tom Kluskens, an IT student with a passion for software development and IT management. 
+              Hi, I&apos;m Tom Kluskens, an IT student with a passion for software development and IT management. 
               I have experience with Java, PHP, Python, C++, JavaScript, TypeScript, React, SQL, and more.
             </p>
             <p className="text-lg mb-4">
@@ -31,7 +31,7 @@ const About = () => {
               I thrive in team-oriented environments and value continuous learning.
             </p>
             <p className="text-lg mb-4">
-              My 5 years of basketball have strengthened my discipline and teamwork. Always open to new opportunities—let's connect!
+              My 5 years of basketball have strengthened my discipline and teamwork. Always open to new opportunities—let&apos;s connect!
             </p>
             <p className="text-lg font-medium">
               🌍 Languages: Dutch, English, French

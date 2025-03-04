@@ -52,16 +52,12 @@ const Projects = () => {
             title={projects[0].title}
             description={projects[0].description}
             tags={projects[0].tags}
-            demoLink={projects[0].demoLink}
-            sourceLink={projects[0].sourceLink}
             imageUrl={projects[0].imageUrl}
           />
           <ProjectCard
             title={projects[1].title}
             description={projects[1].description}
             tags={projects[1].tags}
-            demoLink={projects[1].demoLink}
-            sourceLink={projects[1].sourceLink}
             imageUrl={projects[1].imageUrl}
           />
         </div>
@@ -72,8 +68,6 @@ const Projects = () => {
             title={projects[2].title}
             description={projects[2].description}
             tags={projects[2].tags}
-            demoLink={projects[2].demoLink}
-            sourceLink={projects[2].sourceLink}
             imageUrl={projects[2].imageUrl}
           />
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 
 interface Tag {
   name: string;
@@ -20,15 +21,19 @@ const ProjectCard = ({
   title, 
   description, 
   tags, 
-  demoLink, 
-  sourceLink,
   imageUrl
 }: ProjectCardProps) => {
   return (
     <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden w-full md:w-[500px] lg:w-[600px] mb-8">
       <div className="h-80 bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
         {imageUrl ? (
-          <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+          <Image 
+            src={imageUrl} 
+            alt={title} 
+            width={600} 
+            height={320}
+            className="w-full h-full object-cover" 
+          />
         ) : (
           <span>Project Image</span>
         )}

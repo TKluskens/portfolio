@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <section id="home" className="py-20 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
       <div className="container mx-auto px-6 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">Hello, I'm Tom Kluskens</h1>
+        <h1 className="text-4xl md:text-6xl font-bold mb-4">Hello, I&apos;m Tom Kluskens</h1>
         <p className="text-xl md:text-2xl mb-8">IT Student | Bachelor in Development at HoGent</p>
         <a 
           href="https://www.linkedin.com/in/tom-kluskens-562a8522b/" 
