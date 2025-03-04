@@ -15,13 +15,16 @@ interface ProjectCardProps {
   demoLink?: string;
   sourceLink?: string;
   imageUrl?: string;
+  status?: string;
 }
 
 const ProjectCard = ({ 
   title, 
   description, 
   tags, 
-  imageUrl
+  imageUrl,
+  sourceLink,
+  status
 }: ProjectCardProps) => {
   return (
     <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden w-full md:w-[500px] lg:w-[600px] mb-8">
@@ -53,18 +56,18 @@ const ProjectCard = ({
             </span>
           ))}
         </div>
-        {/* <div className="flex space-x-2">
-          {demoLink && (
-            <a href={demoLink} className="text-blue-600 hover:underline dark:text-blue-400">
-              View Demo
-            </a>
-          )}
+        <div className="flex space-x-2">
           {sourceLink && (
             <a href={sourceLink} className="text-blue-600 hover:underline dark:text-blue-400">
               Source Code
             </a>
           )}
-        </div> */}
+          {status && (
+            <span className="text-gray-600 dark:text-gray-300">
+              {status}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
