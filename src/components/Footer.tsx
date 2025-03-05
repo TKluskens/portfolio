@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <p>© {new Date().getFullYear()} Tom Kluskens. All rights reserved.</p>
         <div className="flex justify-center space-x-6 mt-4">
-          <a href="https://github.com/TomKluskens2004" className="hover:text-blue-400">
+          <a href="https://github.com/TKluskens" className="hover:text-blue-400">
             <FaGithub size={24} />
           </a>
           <a href="https://www.linkedin.com/in/tom-kluskens-562a8522b/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400">
