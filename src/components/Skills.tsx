@@ -22,7 +22,7 @@ const Skills = () => {
     { name: "Java", emoji: "☕" },
     { name: "PHP", emoji: "🐘" },
     { name: "Python", emoji: "🐍" },
-    { name: "C++", emoji: "➕➕" },
+    { name: "Spring", emoji: "🍃" },
     { name: "React", emoji: "⚛️" },
     { name: "Next.js", emoji: "📱" },
     { name: "TypeScript", emoji: "🔷" },
