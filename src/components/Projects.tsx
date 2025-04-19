@@ -1,7 +1,12 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
 import ProjectCard from "./ProjectCard";
 
 const Projects = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
   const htmlTag = {
     name: "HTML",
     colorClass:
@@ -15,12 +20,12 @@ const Projects = () => {
   const mysqlTag = {
     name: "MySQL",
     colorClass:
-      "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+      "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200",
   };
   const jsTag = {
     name: "JavaScript",
     colorClass:
-      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+      "bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-900 dark:text-fuchsia-200",
   };
   const cssTag = {
     name: "CSS",
@@ -37,7 +42,7 @@ const Projects = () => {
   };
   const tailwindTag = {
     name: "Tailwind",
-    colorClass: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+    colorClass: "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200",
   };
   const javaTag = {
     name: "Java",
@@ -46,7 +51,7 @@ const Projects = () => {
   const springTag = {
     name: "Spring",
     colorClass:
-      "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+      "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200",
   };
   const thymeleafTag = {
     name: "Thymeleaf",
@@ -90,30 +95,80 @@ const Projects = () => {
       title: "Delaware Dashboard",
       description:
         "A dashboard created in my second year at HoGent for Delaware. In a team of 5, we built a dashboard to view machines per site with KPIs. This project was built with React and Node.js.",
-      tags: [javaTag, springTag, thymeleafTag, mysqlTag],
+      tags: [reactTag, nodeTag, tailwindTag, mysqlTag],
       imageUrl: "/files/Project_Dellaware.png",
       status: "In Progress",
     },
   ];
 
+  // Setup Intersection Observer to detect when section is in viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          // Once visible, we don't need to observe anymore
+          if (sectionRef.current) {
+            observer.unobserve(sectionRef.current);
+          }
+        }
+      },
+      {
+        threshold: 0.15, // Trigger when 15% of the section is visible
+        rootMargin: "0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section id="projects" className="py-20">
+    <section id="projects" className="py-20" ref={sectionRef}>
       <div className="container mx-auto px-6 flex flex-col items-center">
-        <h2 className="text-3xl font-bold mb-12 text-center">
+        <h2
+          className="text-3xl font-bold mb-12 text-center"
+          style={
+            isVisible
+              ? {
+                  opacity: 0,
+                  animation: `fadeIn 0.5s ease forwards`,
+                }
+              : { opacity: 0 }
+          }
+        >
           Featured Projects
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
           {projects.map((project, index) => (
-            <ProjectCard
+            <div
               key={index}
-              title={project.title}
-              description={project.description}
-              tags={project.tags}
-              imageUrl={project.imageUrl}
-              sourceLink={project.sourceLink}
-              status={project.status}
-            />
+              style={
+                isVisible
+                  ? {
+                      opacity: 0,
+                      animation: `fadeIn 1s ease forwards ${index * 500}ms`,
+                    }
+                  : { opacity: 0 }
+              }
+            >
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                tags={project.tags}
+                imageUrl={project.imageUrl}
+                sourceLink={project.sourceLink}
+                status={project.status}
+              />
+            </div>
           ))}
         </div>
       </div>
