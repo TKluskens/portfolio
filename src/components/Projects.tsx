@@ -82,9 +82,9 @@ const Projects = () => {
       title: "ConfySpring",
       description:
         "ConfySpring is a Spring Boot application designed to manage conference events, speakers, locations, and user registrations. This application was developed as part of the Enterprise Web Development (EWD) examination assignment at Hogeschool Gent.",
-      tags: [reactTag, nodeTag, tailwindTag, mysqlTag],
-      imageUrl: "/files/ConfySpringpng",
-      sourceLink: "https://github.com/TKluskens/ConfySpring",
+      tags: [javaTag, springTag, thymeleafTag, mysqlTag],
+      imageUrl: "/files/ConfySpring.png",
+      status: "In Progress",
     },
     {
       title: "Delaware Dashboard",
