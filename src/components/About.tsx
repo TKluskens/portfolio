@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import profilePic from "../files/pf.jpg";
-import AnimateOnScroll from "./AnimateOnScroll";
 
 const About = () => {
   return (
