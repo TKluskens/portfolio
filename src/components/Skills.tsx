@@ -20,20 +20,17 @@ const Skills = () => {
 
   const skills: Skill[] = [
     { name: "Java", emoji: "☕" },
-    { name: "PHP", emoji: "🐘" },
     { name: "Python", emoji: "🐍" },
-    { name: "Spring", emoji: "🍃" },
-    { name: "React", emoji: "⚛️" },
-    { name: "Next.js", emoji: "📱" },
-    { name: "TypeScript", emoji: "🔷" },
-    { name: "Tailwind CSS", emoji: "🎨" },
+    { name: "PHP", emoji: "🐘" },
     { name: "SQL", emoji: "📊" },
-    { name: "Teamwork", emoji: "🏀" },
+    { name: "JavaScript", emoji: "✨" },
+    { name: "TypeScript", emoji: "🔷" },
     { name: "HTML", emoji: "🌐" },
     { name: "CSS", emoji: "🎨" },
-    { name: "Ubuntu", emoji: "🐧" },
-    { name: "JavaScript", emoji: "✨" },
-    { name: "Office", emoji: "📄" },
+    { name: "Tailwind CSS", emoji: "🎨" },
+    { name: "React", emoji: "⚛️" },
+    { name: "Next.js", emoji: "📱" },
+    { name: "Spring", emoji: "🍃" },
   ];
 
   const certificates: Certificate[] = [
