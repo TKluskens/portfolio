@@ -20,7 +20,7 @@ const Hero = () => {
     };
   }, []);
   const gradientStyle = {
-    background: "linear-gradient(-45deg, #4f46e5, #7c3aed)",
+    background: "linear-gradient(-45deg, var(--primary), var(--secondary))",
     backgroundSize: "400% 400%",
     animation: "gradient 10s ease infinite",
   };
