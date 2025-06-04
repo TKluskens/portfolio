@@ -4,11 +4,11 @@ import profilePic from "../files/pf.jpg";
 
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-gray-100 dark:bg-gray-800">
+    <section id="about" className="py-20 bg-white dark:bg-gray-800">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-40">
           <div className="md:w-1/2">
-            <div className="bg-gray-200 dark:bg-gray-700 rounded-full w-80 h-80 mx-auto overflow-hidden">
+            <div className="bg-white dark:bg-gray-700 rounded-full w-80 h-80 mx-auto overflow-hidden">
               <Image
                 src={profilePic}
                 alt="Tom Kluskens profile picture"
