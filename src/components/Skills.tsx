@@ -83,15 +83,14 @@ const Skills = () => {
   const skillsAnimationDuration = skills.length * 150; // 150ms per skill
   const certificatesSectionDelay = skillsAnimationDuration + 500; // 500ms extra buffer
 
-  return (
-    <section
+  return (    <section
       id="skills"
-      className="py-20 bg-gray-100 dark:bg-gray-800"
+      className="py-20 bg-gray-100 dark:bg-gray-800 transition-colors duration-300"
       ref={sectionRef}
     >
       <div className="container mx-auto px-6">
         <h2
-          className="text-3xl font-bold mb-12 text-center"
+          className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white"
           style={
             isVisible
               ? {
@@ -107,8 +106,7 @@ const Skills = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {skills.map((skill, index) => (
             <div
-              key={index}
-              className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-sm text-center"
+              key={index}              className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-center"
               style={
                 isVisible
                   ? {
@@ -119,7 +117,7 @@ const Skills = () => {
               }
             >
               <div className="text-4xl mb-2">{skill.emoji}</div>
-              <h3 className="font-medium">{skill.name}</h3>
+              <h3 className="font-medium text-gray-900 dark:text-white">{skill.name}</h3>
             </div>
           ))}
         </div>
@@ -134,8 +132,7 @@ const Skills = () => {
                 }
               : { opacity: 0 }
           }
-        >
-          <h2 className="text-3xl font-bold mt-16 mb-8 text-center">
+        >          <h2 className="text-3xl font-bold mt-16 mb-8 text-center text-gray-900 dark:text-white">
             Certifications
           </h2>
 

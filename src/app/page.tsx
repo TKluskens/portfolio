@@ -7,10 +7,11 @@ import Projects from "../components/Projects";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
 import AnimateOnScroll from "../components/AnimateOnScroll";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300">
       <Header />
       <Hero />
       <Skills />
@@ -20,6 +21,7 @@ export default function Home() {
       </AnimateOnScroll>
       <Experience />
       <Footer />
+      <ThemeToggle />
     </div>
   );
 }

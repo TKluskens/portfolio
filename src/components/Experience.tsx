@@ -58,12 +58,11 @@ const Experience = () => {
         "Worked as a student employee, gaining experience in customer service and retail operations.",
     },
   ];
-
   return (
-    <section id="experience" className="py-20" ref={sectionRef}>
+    <section id="experience" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300" ref={sectionRef}>
       <div className="container mx-auto px-6">
         <h2
-          className="text-3xl font-bold mb-12 text-center"
+          className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white"
           style={
             isVisible
               ? {
@@ -79,7 +78,7 @@ const Experience = () => {
           {experiences.map((exp, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md"
+              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
               style={
                 isVisible
                   ? {
@@ -90,7 +89,7 @@ const Experience = () => {
               }
             >
               <div className="flex flex-col md:flex-row justify-between mb-2">
-                <h3 className="text-xl font-bold">{exp.title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{exp.title}</h3>
                 <span className="text-gray-600 dark:text-gray-300">
                   {exp.company}
                 </span>
@@ -98,7 +97,7 @@ const Experience = () => {
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 {exp.period}
               </p>
-              <p>{exp.description}</p>
+              <p className="text-gray-700 dark:text-gray-300">{exp.description}</p>
             </div>
           ))}
         </div>
