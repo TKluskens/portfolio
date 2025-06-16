@@ -19,6 +19,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Optimized animations for better performance */
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -28,6 +29,33 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+.animate-fade-in-up-delay {
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.8s ease-out 0.9s both;
 }
 
 @keyframes gradient {

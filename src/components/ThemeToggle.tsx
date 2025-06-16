@@ -40,15 +40,14 @@ const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed bottom-6 right-6 z-50 group focus:outline-none"
+      className="fixed bottom-6 right-8 z-50 group focus:outline-none"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-    >
-      {/* Toggle Track */}
+    >      {/* Toggle Track */}
       <div 
         className={`relative w-16 h-8 rounded-full transition-all duration-300 shadow-lg ${
           theme === 'dark' 
-            ? 'bg-slate-700 border-2 border-slate-600' 
-            : 'bg-sky-400 border-2 border-sky-300'
+            ? 'bg-white-300 border-2 border-slate-600' 
+            : 'bg-white-300 border-2 border-gray-300'
         }`}
       >
         {/* Toggle Circle */}
