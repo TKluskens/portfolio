@@ -48,7 +48,7 @@ const Header = () => {
   if (!isVisible) {
     return null;
   }  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-sm transition-all duration-500 animate-fade-in">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-850 backdrop-blur-sm shadow-sm transition-all duration-500 animate-fade-in">
       <div className="container mx-auto px-6 py-2">
         <nav className="flex justify-between items-center">
           <div className="flex items-center">
@@ -64,10 +64,10 @@ const Header = () => {
           </div>
             {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6">
-            <a href="#home" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">Home</a>
-            <a href="#about" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">About</a>
-            <a href="#projects" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">Projects</a>
             <a href="#skills" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">Skills</a>
+            <a href="#projects" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">Projects</a>
+            <a href="#about" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">About</a>
+            <a href="#experience" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">Experience</a>
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -88,18 +88,11 @@ const Header = () => {
         {/* Mobile Menu Dropdown */}
         <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'}`}>          <div className="py-4 space-y-3 border-t border-gray-200 dark:border-gray-600 mt-2">
             <a 
-              href="#home" 
+              href="#skills" 
               className="block px-4 py-2 text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Home
-            </a>
-            <a 
-              href="#about" 
-              className="block px-4 py-2 text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              About
+              Skills
             </a>
             <a 
               href="#projects" 
@@ -109,11 +102,18 @@ const Header = () => {
               Projects
             </a>
             <a 
-              href="#skills" 
+              href="#about" 
               className="block px-4 py-2 text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Skills
+              About
+            </a>
+            <a 
+              href="#experience" 
+              className="block px-4 py-2 text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Experience
             </a>
           </div>
         </div>

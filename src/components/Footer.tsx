@@ -3,7 +3,7 @@ import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="py-8 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-100 text-center transition-colors duration-300 border-t border-gray-200 dark:border-gray-800">
+    <footer className="py-4 bg-white dark:bg-gray-850 text-gray-600 dark:text-gray-100 text-center transition-colors duration-300">
       <div className="container mx-auto px-6">
         <p className="text-gray-700 dark:text-gray-300">© {new Date().getFullYear()} Tom Kluskens. All rights reserved.</p>
         <div className="flex justify-center space-x-6 mt-4">

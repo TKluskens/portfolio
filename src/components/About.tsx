@@ -4,7 +4,7 @@ import profilePic from "../files/pf.jpg";
 
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <section id="about" className="py-20 bg-white dark:bg-gray-850 transition-colors duration-300">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-40">
           <div className="md:w-1/2">

@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #1f2937;
+  --gray-850: #18202f;
 }
 
 .dark {
@@ -17,6 +18,31 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom gray-850 utility classes */
+.bg-gray-850 {
+  background-color: var(--gray-850);
+}
+
+.bg-gray-850\/90 {
+  background-color: rgba(24, 32, 47, 0.9);
+}
+
+.dark\:bg-gray-850:is(.dark *) {
+  background-color: var(--gray-850);
+}
+
+.dark\:bg-gray-850\/90:is(.dark *) {
+  background-color: rgba(24, 32, 47, 0.9);
+}
+
+.border-gray-850 {
+  border-color: var(--gray-850);
+}
+
+.dark\:border-gray-850:is(.dark *) {
+  border-color: var(--gray-850);
 }
 
 /* Optimized animations for better performance */
