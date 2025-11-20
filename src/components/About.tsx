@@ -22,36 +22,36 @@ const About = () => {
           <div className="md:w-1/2">
             <h2 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">About Me</h2>
             <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
-              Imagine trying to build a dynamic website with a team that barely
-              speaks your language, sounds like a challenge, right? Well, I did
-              exactly that during my internship in Italy, where I developed a
-              site that visualized complex data for clients, overcoming language
-              barriers and technical barriers alike.
-            </p>            <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
-              I am Tom Kluskens, a student in Applied Information Technology at
-              University of Applied Sciences and Arts Ghent, and I bring
-              experience in backend development. I&apos;ve built multiple web
+              Hi👋 My name is Tom Kluskens. A student in my last year in my bachelor Applied Information Technology at
+              the University of Applied Sciences and Arts Ghent, and I bring
+              hands-on experience in backend development. I&apos;ve built multiple web
               applications, worked with APIs, and delivered projects under tight
-              deadlines. Whether it&apos;s JavaScript or Python, I adapt fast
-              and learn even faster.
+              deadlines. Whether it&apos;s Java or C#, I adapt quickly and learn even
+              faster.
             </p>
             <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
-              Beyond coding, I know how to collaborate and communicate—whether
-              in a fast-paced team or across cultural differences. Years of
-              playing basketball taught me teamwork, while my internship abroad
-              sharpened my problem-solving skills in real projects.
+              What truly drives me is not just coding, but the full development
+              process. I enjoy presenting ideas clearly and discussing a
+              project&apos;s plan of approach directly with the client. Turning
+              requirements into concrete, technical solutions is something I feel
+              at home with.
             </p>
             <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
-              My passion for technology extends beyond development—I&apos;ve
-              configured and maintain my own Ubuntu media server at home, and I
-              enjoy reading comics in my free time. I love exploring both the
-              practical and creative sides of computing.
+              Years of playing basketball taught me teamwork, while my internship
+              abroad sharpened my problem-solving skills in real, production-level
+              environments.
             </p>
             <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
-              In short, I bring the technical skills, adaptability, and teamwork
-              needed to drive backend projects forward. If you&apos;re looking
-              for a backend developer who delivers results and integrates
-              seamlessly into your team, let&apos;s talk!
+              In my free time, you&apos;ll find me experimenting with my homelab
+              setup, maintaining my server, or building new webapp
+              sideprojects to explore fresh technologies and improve my skills. I
+              love diving into both the practical and creative sides of computing.
+            </p>
+            <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
+              In short, I bring technical expertise, adaptability, communication
+              skills, and a proactive mindset needed to move backend projects
+              forward. If you&apos;re looking for a backend developer who delivers
+              results and thrives in collaboration, let&apos;s talk!
             </p>
             <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
               🌍 Languages: Dutch, English, French

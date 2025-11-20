@@ -88,16 +88,39 @@ const Projects = () => {
       description:
         "ConfySpring is a Spring Boot application designed to manage conference events, speakers, locations, and user registrations. This application was developed as part of the Enterprise Web Development (EWD) examination assignment at Hogeschool Gent.",
       tags: [javaTag, springTag, thymeleafTag, mysqlTag],
+      sourceLink: "https://github.com/TKluskens/ConfySpring",
       imageUrl: "/files/ConfySpring.png",
-      status: "In Progress",
     },
     {
       title: "Delaware Dashboard",
       description:
         "A dashboard created in my second year at HoGent for Delaware. In a team of 5, we built a dashboard to view machines per site with KPIs. This project was built with React and Node.js.",
-      tags: [reactTag, nodeTag, tailwindTag, mysqlTag],
+      tags: [reactTag, nodeTag, tailwindTag, mysqlTag, javaTag],
+      sourceLinks: [
+        {
+          label: "Backend (Node.js)",
+          url: "https://github.com/TomKluskens1/2025-nodejs-gent14",
+        },
+        {
+          label: "Frontend (React)",
+          url: "https://github.com/TomKluskens1/2025-react-gent14",
+        },
+        {
+          label: "Java-app",
+          url: "https://github.com/TomKluskens1/2025-java-gent14",
+        },
+      ],
+      docLinks: [
+        {
+          label: "WebApp Documentation",
+          path: "/files/Dossier_Web.pdf",
+        },
+        {
+          label: "Java Documentation",
+          path: "/files/Dossier_G14_Java.pdf",
+        },
+      ],
       imageUrl: "/files/Project_Dellaware.png",
-      status: "In Progress",
     },
   ];
 
@@ -132,18 +155,18 @@ const Projects = () => {
   return (
     <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300" ref={sectionRef}>
       <div className="container mx-auto px-6 flex flex-col items-center">        <h2
-          className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white"
-          style={
-            isVisible
-              ? {
-                  opacity: 0,
-                  animation: `fadeIn 0.5s ease forwards`,
-                }
-              : { opacity: 0 }
-          }
-        >
-          Featured Projects
-        </h2>
+        className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white"
+        style={
+          isVisible
+            ? {
+              opacity: 0,
+              animation: `fadeIn 0.5s ease forwards`,
+            }
+            : { opacity: 0 }
+        }
+      >
+        Featured Projects
+      </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
           {projects.map((project, index) => (
@@ -152,9 +175,9 @@ const Projects = () => {
               style={
                 isVisible
                   ? {
-                      opacity: 0,
-                      animation: `fadeIn 1s ease forwards ${index * 500}ms`,
-                    }
+                    opacity: 0,
+                    animation: `fadeIn 1s ease forwards ${index * 500}ms`,
+                  }
                   : { opacity: 0 }
               }
             >
@@ -164,7 +187,8 @@ const Projects = () => {
                 tags={project.tags}
                 imageUrl={project.imageUrl}
                 sourceLink={project.sourceLink}
-                status={project.status}
+                sourceLinks={project.sourceLinks}
+                docLinks={project.docLinks}
               />
             </div>
           ))}
