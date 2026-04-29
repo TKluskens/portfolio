@@ -10,7 +10,7 @@ const ThemeTest: React.FC = () => {
       <div className="mt-2 p-2 bg-gray-100 dark:bg-gray-700 rounded">
         <span className="text-gray-800 dark:text-gray-200">Background should change</span>
       </div>
-      <button className="mt-2 px-3 py-1 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded text-sm">
+      <button className="mt-2 px-3 py-1 bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700 text-white rounded text-sm">
         Test Button
       </button>
     </div>

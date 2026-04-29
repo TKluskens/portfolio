@@ -1,125 +1,170 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect } from "react";
 
-const Header = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const NAV_LINKS = ["About", "Projects", "Experience", "Skills", "Thesis", "Contact"];
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [accent, setAccent] = useState<string>("");
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      // Show navbar when scrolled down more than 100px
-      // Hide navbar when back at the top (less than 50px for smooth transition)
-      if (scrollPosition > 100) {
-        setIsVisible(true);
-      } else if (scrollPosition < 50) {
-        setIsVisible(false);
-      }
-    };
-
-    // Check for dark mode
-    const checkDarkMode = () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      setIsDarkMode(isDark);
-    };
-
-    // Initial check
-    checkDarkMode();
-
-    // Watch for changes in dark mode
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      observer.disconnect();
-    };
+    const fn = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", fn, { passive: true });
+    fn();
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // Render nothing if navbar should be hidden
-  if (!isVisible) {
-    return null;
-  }  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-850 backdrop-blur-sm shadow-sm transition-all duration-500 animate-fade-in">
-      <div className="container mx-auto px-6 py-2">
-        <nav className="flex justify-between items-center">
-          <div className="flex items-center">
-            {/* Logo - Dark theme shows white logo, Light theme shows black logo */}
-            <Image
-              src={isDarkMode ? "/files/logoWit.png" : "/files/logoZwart.png"}
-              alt="Tom Kluskens Logo"
-              width={180}
-              height={60}
-              className="h-12 w-auto transition-opacity duration-300"
-              priority
-            />
-          </div>
-            {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-6">
-            <a href="#skills" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">Skills</a>
-            <a href="#projects" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">Projects</a>
-            <a href="#about" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">About</a>
-            <a href="#experience" className="text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 transition-colors">Experience</a>
-          </div>
+  useEffect(() => {
+    const update = () =>
+      setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
+    update();
+    const obs = new MutationObserver(update);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
+    return () => obs.disconnect();
+  }, []);
 
-          {/* Mobile Hamburger Button */}
-          <button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle mobile menu"
+  const a = accent || "var(--accent)";
+
+  return (
+    <>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          padding: "0 1.5rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "64px",
+          background: scrolled || menuOpen
+            ? "color-mix(in oklch, var(--bg) 96%, transparent)"
+            : "transparent",
+          backdropFilter: scrolled || menuOpen ? "blur(16px)" : "none",
+          borderBottom: scrolled || menuOpen ? "1px solid var(--border)" : "1px solid transparent",
+          transition: "all 0.4s ease",
+          fontFamily: "var(--ff-head)",
+        }}
+      >
+        <a
+          href="#home"
+          style={{ fontWeight: 800, fontSize: "1rem", letterSpacing: "-0.01em", color: a, textDecoration: "none" }}
+        >
+          <span style={{ color: a }}>T</span>K
+        </a>
+
+        {/* Desktop links */}
+        <div className="desktop-nav" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l}
+              href={`#${l.toLowerCase()}`}
+              style={{
+                color: "var(--muted)", fontSize: "0.85rem", textDecoration: "none",
+                letterSpacing: "0.04em", textTransform: "uppercase", fontWeight: 500,
+                transition: "color 0.2s", fontFamily: "var(--ff-head)",
+              }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = a)}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "var(--muted)")}
+            >
+              {l}
+            </a>
+          ))}
+          <a
+            href="https://www.linkedin.com/in/tom-kluskens-562a8522b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: "0.5rem 1.25rem", border: `1px solid ${a}`, color: a,
+              borderRadius: "2px", fontSize: "0.8rem", textDecoration: "none",
+              fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase",
+              transition: "all 0.2s", fontFamily: "var(--ff-head)",
+            }}
+            onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = a; el.style.color = "var(--bg)"; }}
+            onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.color = a; }}
           >
-            <div className="relative w-6 h-6 flex items-center justify-center">
-              {/* Hamburger Icon */}
-              <div className={`absolute w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-0' : '-translate-y-1.5'}`}></div>
-              <div className={`absolute w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></div>
-              <div className={`absolute w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 translate-y-0' : 'translate-y-1.5'}`}></div>
-            </div>
-          </button>
-        </nav>
+            LinkedIn →
+          </a>
+        </div>
 
-        {/* Mobile Menu Dropdown */}
-        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'}`}>          <div className="py-4 space-y-3 border-t border-gray-200 dark:border-gray-600 mt-2">
-            <a 
-              href="#skills" 
-              className="block px-4 py-2 text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-              onClick={() => setIsMobileMenuOpen(false)}
+        {/* Hamburger */}
+        <button
+          className="mobile-menu-btn"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+          style={{
+            background: "none", border: "none", cursor: "pointer",
+            display: "none", flexDirection: "column", gap: "5px", padding: "4px",
+          }}
+        >
+          <span style={{ display: "block", width: "22px", height: "2px", background: "var(--text)", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(5px, 5px)" : "none" }} />
+          <span style={{ display: "block", width: "22px", height: "2px", background: "var(--text)", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: "22px", height: "2px", background: "var(--text)", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(5px, -5px)" : "none" }} />
+        </button>
+      </nav>
+
+      {/* Mobile drawer */}
+      <div
+        className="mobile-drawer"
+        style={{
+          position: "fixed", top: "64px", left: 0, right: 0, zIndex: 99,
+          background: "color-mix(in oklch, var(--bg) 96%, transparent)",
+          backdropFilter: "blur(16px)",
+          borderBottom: "1px solid var(--border)",
+          padding: menuOpen ? "1.5rem" : "0 1.5rem",
+          maxHeight: menuOpen ? "400px" : "0",
+          overflow: "hidden",
+          transition: "max-height 0.35s ease, padding 0.35s ease",
+          display: "none",
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l}
+              href={`#${l.toLowerCase()}`}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                color: "var(--muted)", fontSize: "1rem", textDecoration: "none",
+                letterSpacing: "0.04em", textTransform: "uppercase", fontWeight: 500,
+                fontFamily: "var(--ff-head)", padding: "0.9rem 0",
+                borderBottom: "1px solid var(--border)", transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = a)}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "var(--muted)")}
             >
-              Skills
+              {l}
             </a>
-            <a 
-              href="#projects" 
-              className="block px-4 py-2 text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Projects
-            </a>
-            <a 
-              href="#about" 
-              className="block px-4 py-2 text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              About
-            </a>
-            <a 
-              href="#experience" 
-              className="block px-4 py-2 text-gray-700 hover:text-gray-400 dark:text-gray-300 dark:hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Experience
-            </a>
-          </div>
+          ))}
+          <a
+            href="https://www.linkedin.com/in/tom-kluskens-562a8522b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: "inline-block", marginTop: "1rem",
+              padding: "0.75rem 1.5rem", border: `1px solid ${a}`, color: a,
+              borderRadius: "2px", fontSize: "0.85rem", textDecoration: "none",
+              fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase",
+              fontFamily: "var(--ff-head)", alignSelf: "flex-start",
+            }}
+          >
+            LinkedIn →
+          </a>
         </div>
       </div>
-    </header>
-  );
-};
 
-export default Header;
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-menu-btn { display: flex !important; }
+          .mobile-drawer { display: block !important; }
+        }
+      `}</style>
+    </>
+  );
+}

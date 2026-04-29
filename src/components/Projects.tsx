@@ -1,202 +1,192 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import ProjectCard from "./ProjectCard";
+import Image from "next/image";
 
-const Projects = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+const PUBLIC_PROJECTS = [
+  { title: "School Library System", year: "2023", tags: ["HTML", "PHP", "MySQL", "CSS"], description: "A school library system that automatically generates QR codes with unique ISBN numbers for every book.", imageUrl: "/files/Project_Bib.jpg", sourceLink: "https://github.com/TKluskens/SchoolBib" },
+  { title: "Turtle SRL Dashboard", year: "2023", tags: ["JavaScript", "HTML", "CSS"], description: "Data visualization dashboard converting customer data into charts. Built during my internship in Cesenatico, Italy.", imageUrl: "/files/Project_Italie.png", sourceLink: "https://github.com/TKluskens/Dashboard-Turtle" },
+  { title: "Recipe Relay", year: "2024", tags: ["React", "Node.js", "Tailwind", "MySQL"], description: "A social platform for students to upload, share, like and comment on recipes — with friends and discovery features.", imageUrl: "/files/Project_Recept.png", sourceLink: "https://github.com/TKluskens/RecipeRelay" },
+  { title: "ConfySpring", year: "2024", tags: ["Java", "Spring Boot", "Thymeleaf", "MySQL"], description: "Conference event management system handling speakers, locations, and user registrations. EWD exam project at HoGent.", imageUrl: "/files/ConfySpring.png", sourceLink: "https://github.com/TKluskens/ConfySpring" },
+  { title: "Delaware Dashboard", year: "2025", tags: ["React", "Node.js", "Java", "MySQL"], description: "Machine status dashboard per site with KPIs, built for Delaware in a team of 5. Full-stack with a Java micro-service layer.", imageUrl: "/files/Project_Dellaware.png", sourceLink: "https://github.com/TomKluskens1/2025-react-gent14" },
+];
 
-  const htmlTag = {
-    name: "HTML",
-    colorClass:
-      "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
-  };
-  const phpTag = {
-    name: "PHP",
-    colorClass:
-      "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-  };
-  const mysqlTag = {
-    name: "MySQL",
-    colorClass:
-      "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200",
-  };
-  const jsTag = {
-    name: "JavaScript",
-    colorClass:
-      "bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-900 dark:text-fuchsia-200",
-  };
-  const cssTag = {
-    name: "CSS",
-    colorClass: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-  };
-  const reactTag = {
-    name: "React",
-    colorClass: "bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200",
-  };
-  const nodeTag = {
-    name: "Node.js",
-    colorClass:
-      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  };
-  const tailwindTag = {
-    name: "Tailwind",
-    colorClass: "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200",
-  };
-  const javaTag = {
-    name: "Java",
-    colorClass: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-  };
-  const springTag = {
-    name: "Spring",
-    colorClass:
-      "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200",
-  };
-  const thymeleafTag = {
-    name: "Thymeleaf",
-    colorClass: "bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200",
-  };
+const PRIVATE_PROJECTS = [
+  { title: "Webscraper", year: "2026", tags: ["Python", "FastAPI", "MongoDB", "Playwright", "Docker", "LLM"], description: "Async FastAPI service that discovers pages via sitemaps, filters candidate URLs with deterministic rules + LLM assistance, scrapes with BeautifulSoup/Playwright, and stores results in MongoDB. Rate-limited, API-key protected, deployable on Scaleway serverless or Docker.", client: "Turtle Srl" },
+  { title: "Websearcher", year: "2026", tags: ["Python", "FastAPI", "Vector DB", "Embeddings", "Playwright", "Docker"], description: "Microservice that takes a search query, retrieves the top 10 results, scrapes and processes page content, indexes it as vectors, and returns semantically relevant results. Repeated queries are served from cache. Includes an LLM agent chat interface for natural-language product search.", client: "Turtle Srl" },
+  { title: "Echo", year: "2026", tags: ["React", "FastAPI", "PostgreSQL", "Redis", "Qdrant", "WhisperX", "LLM"], description: "Turns audio recordings of business interviews into structured Word documents. Transcribes MP3s via WhisperX, cleans with an LLM, lets users review and edit, then generates a full report by answering template paragraphs from transcriptions and vector retrieval.", client: "Turtle Srl" },
+];
 
-  const projects = [
-    {
-      title: "School Library System",
-      description:
-        "A school library system built with HTML, PHP, and MySQL that automatically generates QR codes with unique ISBN numbers of books.",
-      tags: [htmlTag, phpTag, cssTag, mysqlTag],
-      sourceLink: "https://github.com/TKluskens/SchoolBib",
-      imageUrl: "/files/Project_Bib.jpg",
-    },
-    {
-      title: "Turtle SRL Dashboard",
-      description:
-        "A dashboard that converts customer data into charts using JavaScript. This was my internship project in Cesenatico, Italy.",
-      tags: [htmlTag, jsTag, cssTag],
-      sourceLink: "https://github.com/TKluskens/Dashboard-Turtle",
-      imageUrl: "/files/Project_Italie.png",
-    },
-    {
-      title: "Recipe Relay",
-      description:
-        "A social platform for students to upload, share, like and comment on recipes plus add friends, built with Node.js, React and Tailwind CSS.",
-      tags: [reactTag, nodeTag, tailwindTag, mysqlTag],
-      sourceLink: "https://github.com/TKluskens/RecipeRelay",
-      imageUrl: "/files/Project_Recept.png",
-    },
-    {
-      title: "ConfySpring",
-      description:
-        "ConfySpring is a Spring Boot application designed to manage conference events, speakers, locations, and user registrations. This application was developed as part of the Enterprise Web Development (EWD) examination assignment at Hogeschool Gent.",
-      tags: [javaTag, springTag, thymeleafTag, mysqlTag],
-      sourceLink: "https://github.com/TKluskens/ConfySpring",
-      imageUrl: "/files/ConfySpring.png",
-    },
-    {
-      title: "Delaware Dashboard",
-      description:
-        "A dashboard created in my second year at HoGent for Delaware. In a team of 5, we built a dashboard to view machines per site with KPIs. This project was built with React and Node.js.",
-      tags: [reactTag, nodeTag, tailwindTag, mysqlTag, javaTag],
-      sourceLinks: [
-        {
-          label: "Backend (Node.js)",
-          url: "https://github.com/TomKluskens1/2025-nodejs-gent14",
-        },
-        {
-          label: "Frontend (React)",
-          url: "https://github.com/TomKluskens1/2025-react-gent14",
-        },
-        {
-          label: "Java-app",
-          url: "https://github.com/TomKluskens1/2025-java-gent14",
-        },
-      ],
-      docLinks: [
-        {
-          label: "WebApp Documentation",
-          path: "/files/Dossier_Web.pdf",
-        },
-        {
-          label: "Java Documentation",
-          path: "/files/Dossier_G14_Java.pdf",
-        },
-      ],
-      imageUrl: "/files/Project_Dellaware.png",
-    },
-  ];
-
-  // Setup Intersection Observer to detect when section is in viewport
+function useAccent() {
+  const [accent, setAccent] = useState("");
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          // Once visible, we don't need to observe anymore
-          if (sectionRef.current) {
-            observer.unobserve(sectionRef.current);
-          }
-        }
-      },
-      {
-        threshold: 0.15, // Trigger when 15% of the section is visible
-        rootMargin: "0px",
-      }
-    );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
+    const update = () => setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
+    update();
+    const obs = new MutationObserver(update);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
+    return () => obs.disconnect();
   }, []);
-  return (
-    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300" ref={sectionRef}>
-      <div className="container mx-auto px-6 flex flex-col items-center">        <h2
-        className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white"
-        style={
-          isVisible
-            ? {
-              opacity: 0,
-              animation: `fadeIn 0.5s ease forwards`,
-            }
-            : { opacity: 0 }
-        }
-      >
-        Featured Projects
-      </h2>
+  return accent || "var(--accent)";
+}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              style={
-                isVisible
-                  ? {
-                    opacity: 0,
-                    animation: `fadeIn 1s ease forwards ${index * 500}ms`,
-                  }
-                  : { opacity: 0 }
-              }
-            >
-              <ProjectCard
-                title={project.title}
-                description={project.description}
-                tags={project.tags}
-                imageUrl={project.imageUrl}
-                sourceLink={project.sourceLink}
-                sourceLinks={project.sourceLinks}
-                docLinks={project.docLinks}
-              />
-            </div>
+function TagList({ tags }: { tags: string[] }) {
+  return (
+    <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+      {tags.map((t) => (
+        <span key={t} style={{ fontFamily: "var(--ff-mono)", fontSize: "0.62rem", padding: "0.2rem 0.55rem", border: "1px solid var(--border)", borderRadius: "2px", color: "var(--muted)", letterSpacing: "0.04em" }}>{t}</span>
+      ))}
+    </div>
+  );
+}
+
+function ListProjectCard({ project, accent }: { project: typeof PUBLIC_PROJECTS[0]; accent: string }) {
+  return (
+    <div
+      className="list-card"
+      style={{ borderTop: "1px solid var(--border)", padding: "1.75rem 0", transition: "padding-left 0.3s" }}
+      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.paddingLeft = "1rem")}
+      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.paddingLeft = "0")}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem", gap: "1rem" }}>
+        <div>
+          <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", marginBottom: "0.25rem" }}>{project.year}</div>
+          <div style={{ fontFamily: "var(--ff-head)", fontSize: "1.15rem", fontWeight: 700 }}>{project.title}</div>
+        </div>
+        <a href={project.sourceLink} target="_blank" rel="noopener noreferrer" style={{ color: accent, fontFamily: "var(--ff-head)", fontSize: "0.8rem", fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>View →</a>
+      </div>
+      <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "0.75rem" }}>{project.description}</p>
+      <TagList tags={project.tags} />
+    </div>
+  );
+}
+
+function GridProjectCard({ project, accent }: { project: typeof PUBLIC_PROJECTS[0]; accent: string }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a href={project.sourceLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{ border: `1px solid ${hovered ? `color-mix(in srgb, ${accent} 40%, transparent)` : "var(--border)"}`, borderRadius: "4px", overflow: "hidden", background: "var(--surface)", transition: "border-color 0.3s, transform 0.3s", transform: hovered ? "translateY(-4px)" : "none" }}
+      >
+        <div style={{ height: "200px", overflow: "hidden", position: "relative" }}>
+          <Image src={project.imageUrl} alt={project.title} fill style={{ objectFit: "cover", objectPosition: "top", transition: "transform 0.5s", transform: hovered ? "scale(1.04)" : "scale(1)", filter: "grayscale(20%)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, var(--surface) 0%, transparent 60%)" }} />
+          <div style={{ position: "absolute", top: "1rem", right: "1rem", fontFamily: "var(--ff-mono)", fontSize: "0.65rem", color: "var(--muted)", background: "var(--bg)", padding: "0.25rem 0.5rem", borderRadius: "2px", border: "1px solid var(--border)" }}>{project.year}</div>
+        </div>
+        <div style={{ padding: "1.25rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem" }}>
+            <h3 style={{ fontFamily: "var(--ff-head)", fontSize: "1.1rem", fontWeight: 700 }}>{project.title}</h3>
+            <span style={{ color: accent, fontSize: "1rem", display: "inline-block", transform: hovered ? "translate(3px,-3px)" : "none", transition: "transform 0.2s" }}>↗</span>
+          </div>
+          <p style={{ color: "var(--muted)", fontSize: "0.85rem", lineHeight: 1.6, marginBottom: "1rem" }}>{project.description}</p>
+          <TagList tags={project.tags} />
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function PrivateCard({ project, accent }: { project: typeof PRIVATE_PROJECTS[0]; accent: string }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ border: "1px solid var(--border)", borderLeft: `3px solid ${hovered ? accent : "var(--border)"}`, borderRadius: "2px", background: hovered ? "var(--surface)" : "transparent", padding: "1.75rem", transition: "all 0.25s" }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+          <h3 style={{ fontFamily: "var(--ff-head)", fontSize: "1.1rem", fontWeight: 700 }}>{project.title}</h3>
+          <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", padding: "0.2rem 0.5rem", background: "oklch(52% 0.012 240 / 0.15)", color: "var(--muted)", border: "1px solid var(--border)", borderRadius: "2px", letterSpacing: "0.08em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+            Private · {project.client}
+          </span>
+        </div>
+        <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.65rem", color: "var(--muted)" }}>{project.year}</span>
+      </div>
+      <p style={{ color: "var(--muted)", fontSize: "0.88rem", lineHeight: 1.7, marginBottom: "1rem" }}>{project.description}</p>
+      <TagList tags={project.tags} />
+    </div>
+  );
+}
+
+export default function Projects() {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [layout, setLayout] = useState<"list" | "grid">("list");
+  const accent = useAccent();
+
+  useEffect(() => {
+    const saved = localStorage.getItem("projectLayout") as "list" | "grid" | null;
+    if (saved) setLayout(saved);
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.1 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section id="projects" ref={ref} style={{ padding: "8rem 2rem", maxWidth: "1200px", margin: "0 auto", opacity: visible ? 1 : 0, transition: "opacity 0.8s ease" }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "baseline", gap: "1rem", marginBottom: "2rem", flexWrap: "wrap" }}>
+        <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: accent, letterSpacing: "0.1em" }}>02</span>
+        <h2 style={{ fontFamily: "var(--ff-head)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1 }}>Projects</h2>
+        <div style={{ flex: 1, height: "1px", background: "var(--border)", minWidth: "20px" }} />
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          {(["list", "grid"] as const).map((opt) => (
+            <button key={opt} onClick={() => { setLayout(opt); localStorage.setItem("projectLayout", opt); }} style={{ fontFamily: "var(--ff-mono)", fontSize: "0.65rem", letterSpacing: "0.08em", textTransform: "uppercase", padding: "0.3rem 0.75rem", borderRadius: "2px", border: `1px solid ${layout === opt ? accent : "var(--border)"}`, background: layout === opt ? `color-mix(in srgb, ${accent} 12%, transparent)` : "transparent", color: layout === opt ? accent : "var(--muted)", cursor: "pointer", transition: "all 0.2s" }}>
+              {opt}
+            </button>
           ))}
         </div>
       </div>
+
+      {/* Public */}
+      <div style={{ marginBottom: "5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem" }}>
+          <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: accent, letterSpacing: "0.1em", textTransform: "uppercase" }}>Public</span>
+          <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
+        </div>
+        {layout === "grid" ? (
+          <div className="projects-grid">
+            {PUBLIC_PROJECTS.map((p, i) => <GridProjectCard key={i} project={p} accent={accent} />)}
+          </div>
+        ) : (
+          <div>
+            {PUBLIC_PROJECTS.map((p, i) => <ListProjectCard key={i} project={p} accent={accent} />)}
+            <div style={{ borderTop: "1px solid var(--border)" }} />
+          </div>
+        )}
+      </div>
+
+      {/* Private */}
+      <div>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
+          <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Private · Turtle Srl</span>
+          <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
+        </div>
+        <p style={{ fontFamily: "var(--ff-mono)", fontSize: "0.72rem", color: "var(--muted)", marginBottom: "2rem", lineHeight: 1.6 }}>
+          Developed during my internship at Turtle Srl — source code is confidential.
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          {PRIVATE_PROJECTS.map((p, i) => <PrivateCard key={i} project={p} accent={accent} />)}
+        </div>
+      </div>
+
+      <style>{`
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 1.5rem;
+        }
+        @media (max-width: 640px) {
+          .projects-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
     </section>
   );
-};
-
-export default Projects;
+}

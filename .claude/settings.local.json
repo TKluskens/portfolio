@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(cd /tmp)",
+      "Bash(cp \"C:/Users/klusk/.claude/projects/D--Projects-portfolio/c16f798a-d60b-4d0f-9b12-022f4d37212b/tool-results/webfetch-1777456956945-r87k0k.bin\" design.gz)",
+      "Bash(gunzip design.gz)",
+      "Bash(mv design *)",
+      "Bash(mkdir design_extracted)",
+      "Bash(tar xf *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

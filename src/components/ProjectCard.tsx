@@ -43,10 +43,10 @@ const ProjectCard = ({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden w-full max-w-full mb-8">
+    <div className="bg-white dark:bg-[#2a2a2a] rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden w-full max-w-full mb-8">
       {/* Image - Always Visible */}
       {imageUrl && (
-        <div className="w-full aspect-video relative bg-gray-100 dark:bg-gray-700">
+        <div className="w-full aspect-video relative bg-gray-100 dark:bg-[#2a2a2a]">
           <Image
             src={imageUrl}
             alt={title}
@@ -102,7 +102,7 @@ const ProjectCard = ({
         className={`transition-all duration-300 ease-in-out ${isExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
           } overflow-hidden`}
       >
-        <div className="border-t border-gray-200 dark:border-gray-700">
+        <div>
           {/* Content */}
           <div className="p-4 sm:p-6">
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4">
@@ -122,7 +122,7 @@ const ProjectCard = ({
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline dark:text-blue-400 text-xs sm:text-sm"
+                      className="text-orange-600 hover:underline dark:text-orange-400 text-xs sm:text-sm"
                     >
                       {link.label}
                     </a>
@@ -132,7 +132,7 @@ const ProjectCard = ({
                       href={sourceLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline dark:text-blue-400 text-xs sm:text-sm"
+                      className="text-orange-600 hover:underline dark:text-orange-400 text-xs sm:text-sm"
                     >
                       {title}
                     </a>
@@ -154,7 +154,7 @@ const ProjectCard = ({
                       href={doc.path}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 text-xs sm:text-sm font-medium shadow-md hover:shadow-lg"
+                      className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 transition-all duration-300 text-xs sm:text-sm font-medium shadow-md hover:shadow-lg"
                     >
                       {doc.label}
                     </a>

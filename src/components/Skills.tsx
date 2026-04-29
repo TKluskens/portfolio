@@ -1,183 +1,216 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
-interface Skill {
-  name: string;
-  emoji: string;
-}
+const SKILLS = [
+  { name: "HTML / CSS", cat: "Frontend" },
+  { name: "JavaScript", cat: "Frontend" },
+  { name: "React", cat: "Frontend" },
+  { name: "Tailwind CSS", cat: "Frontend" },
+  { name: "TypeScript", cat: "Frontend" },
+  { name: "C#", cat: "Backend" },
+  { name: "FastAPI", cat: "Backend" },
+  { name: "Java", cat: "Backend" },
+  { name: "Node.js", cat: "Backend" },
+  { name: "PHP", cat: "Backend" },
+  { name: "Python", cat: "Backend" },
+  { name: ".NET / Blazor", cat: "Framework" },
+  { name: "Spring Boot", cat: "Framework" },
+  { name: "MongoDB", cat: "Data" },
+  { name: "MySQL", cat: "Data" },
+  { name: "PostgreSQL", cat: "Data" },
+  { name: "Qdrant", cat: "Data" },
+  { name: "Redis", cat: "Data" },
+  { name: "SQL", cat: "Data" },
+  { name: "Docker", cat: "DevOps" },
+  { name: "n8n", cat: "DevOps" },
+  { name: "Playwright", cat: "DevOps" },
+  { name: "Ubuntu Server", cat: "DevOps" },
+  { name: "Embeddings", cat: "AI" },
+  { name: "LLM Integration", cat: "AI" },
+  { name: "Vector Search", cat: "AI" },
+  { name: "WhisperX / ASR", cat: "AI" },
+];
 
-interface Certificate {
-  name: string;
-  imageUrl: string;
-  credentialUrl: string;
-}
+const CAT_ORDER = ["Frontend", "Backend", "Framework", "Data", "DevOps", "AI"];
+const CATS = ["All", ...CAT_ORDER];
 
-const Skills = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+const CAT_COLORS: Record<string, string> = {
+  Backend: "oklch(72% 0.16 45)",
+  Framework: "oklch(72% 0.16 150)",
+  Frontend: "oklch(72% 0.16 220)",
+  Data: "oklch(72% 0.16 290)",
+  DevOps: "oklch(72% 0.16 340)",
+  AI: "oklch(72% 0.16 95)",
+};
 
-  const skills: Skill[] = [
-    { name: "Java", emoji: "☕" },
-    { name: "Python", emoji: "🐍" },
-    { name: "PHP", emoji: "🐘" },
-    { name: "C#", emoji: "💎" },
-    { name: "SQL", emoji: "📊" },
-    { name: "JavaScript", emoji: "🟨" },
-    { name: "TypeScript", emoji: "🔷" },
-    { name: "HTML", emoji: "🌐" },
-    { name: "CSS", emoji: "🎨" },
-    { name: "Tailwind CSS", emoji: "💨" },
-    { name: "React", emoji: "⚛️" },
-    { name: "Spring", emoji: "🍃" },
-    { name: ".NET", emoji: "💜" },
-    { name: "Blazor", emoji: "🔥" },
-    { name: "MongoDB", emoji: "🌿" },
-    { name: "Docker", emoji: "🐳" },
-    { name: "Ubuntu Server", emoji: "🖥️" },
-    { name: "n8n", emoji: "🔗" },
-  ];
+const CERTS = [
+  {
+    name: "Cisco Networking Basics",
+    url: "https://www.credly.com/badges/d42e36ff-9002-472c-b4b3-ac9f955606c6/public_url",
+    img: "https://images.credly.com/size/110x110/images/5bdd6a39-3e03-4444-9510-ecff80c9ce79/image.png",
+  },
+  {
+    name: "Cisco Intro to Cybersecurity",
+    url: "https://www.credly.com/badges/5fb82c13-870e-44f3-b519-d95e7f8ce93a/public_url",
+    img: "https://images.credly.com/size/110x110/images/af8c6b4e-fc31-47c4-8dcb-eb7a2065dc5b/I2CS__1_.png",
+  },
+];
 
-  const certificates: Certificate[] = [
-    {
-      name: "Cisco Networking Basics",
-      imageUrl:
-        "https://images.credly.com/size/110x110/images/5bdd6a39-3e03-4444-9510-ecff80c9ce79/image.png",
-      credentialUrl:
-        "https://www.credly.com/badges/d42e36ff-9002-472c-b4b3-ac9f955606c6/public_url",
-    },
-    {
-      name: "Cisco Introduction to Cybersecurity",
-      imageUrl:
-        "https://images.credly.com/size/110x110/images/af8c6b4e-fc31-47c4-8dcb-eb7a2065dc5b/I2CS__1_.png",
-      credentialUrl:
-        "https://www.credly.com/badges/5fb82c13-870e-44f3-b519-d95e7f8ce93a/public_url",
-    },
-  ];
+export default function Skills() {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [accent, setAccent] = useState("");
 
-  // Setup Intersection Observer to detect when section is in viewport
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          // Once visible, we don't need to observe anymore
-          if (sectionRef.current) {
-            observer.unobserve(sectionRef.current);
-          }
-        }
-      },
-      {
-        threshold: 0.15, // Trigger when 15% of the section is visible
-        rootMargin: "0px",
-      }
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.1 }
     );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
-  // Bereken de vertraging voor certificaten op basis van het aantal skills
-  const skillsAnimationDuration = skills.length * 150; // 150ms per skill
-  const certificatesSectionDelay = skillsAnimationDuration + 500; // 500ms extra buffer
+  useEffect(() => {
+    const update = () =>
+      setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
+    update();
+    const obs = new MutationObserver(update);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
+    return () => obs.disconnect();
+  }, []);
 
-  return (<section
-    id="skills"
-    className="py-20 bg-gray-100 dark:bg-gray-850 transition-colors duration-300"
-    ref={sectionRef}
-  >
-    <div className="container mx-auto px-6">
-      <h2
-        className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white"
-        style={
-          isVisible
-            ? {
-              opacity: 0,
-              animation: `fadeIn 0.5s ease forwards`,
-            }
-            : { opacity: 0 }
-        }
-      >
-        Skills & Technologies
-      </h2>
+  const a = accent || "var(--accent)";
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        {skills.map((skill, index) => (
-          <div
-            key={index} className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-center"
-            style={
-              isVisible
-                ? {
-                  opacity: 0,
-                  animation: `fadeIn 0.5s ease forwards ${index * 150}ms`,
-                }
-                : { opacity: 0 }
-            }
+  const filtered =
+    activeFilter === "All"
+      ? [...SKILLS].sort(
+          (x, y) => CAT_ORDER.indexOf(x.cat) - CAT_ORDER.indexOf(y.cat) || x.name.localeCompare(y.name)
+        )
+      : SKILLS.filter((s) => s.cat === activeFilter).sort((x, y) => x.name.localeCompare(y.name));
+
+  return (
+    <section
+      id="skills"
+      ref={ref}
+      style={{ padding: "8rem 2rem", maxWidth: "1200px", margin: "0 auto", opacity: visible ? 1 : 0, transition: "opacity 0.8s ease" }}
+    >
+      {/* Section header */}
+      <div style={{ display: "flex", alignItems: "baseline", gap: "1.5rem", marginBottom: "4rem" }}>
+        <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: a, letterSpacing: "0.1em" }}>04</span>
+        <h2 style={{ fontFamily: "var(--ff-head)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1 }}>
+          Skills
+        </h2>
+        <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
+      </div>
+
+      {/* Filter pills */}
+      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "2.5rem", flexWrap: "wrap" }}>
+        {CATS.map((c) => (
+          <button
+            key={c}
+            onClick={() => setActiveFilter(c)}
+            style={{
+              fontFamily: "var(--ff-mono)",
+              fontSize: "0.7rem",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              padding: "0.4rem 1rem",
+              borderRadius: "2px",
+              border: `1px solid ${activeFilter === c ? a : "var(--border)"}`,
+              background: activeFilter === c ? `color-mix(in srgb, ${a} 12%, transparent)` : "transparent",
+              color: activeFilter === c ? a : "var(--muted)",
+              cursor: "pointer",
+              transition: "all 0.2s",
+            }}
           >
-            <div className="text-4xl mb-2">{skill.emoji}</div>
-            <h3 className="font-medium text-gray-900 dark:text-white">{skill.name}</h3>
+            {c}
+          </button>
+        ))}
+      </div>
+
+      {/* Grid */}
+      <div
+        className="skills-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+          gap: "1px",
+          background: "var(--border)",
+          border: "1px solid var(--border)",
+        }}
+      >
+        {filtered.map((skill, i) => (
+          <div
+            key={i}
+            style={{ background: "var(--bg)", padding: "1.25rem 1rem", display: "flex", flexDirection: "column", gap: "0.5rem", transition: "background 0.2s" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--surface)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg)")}
+          >
+            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: CAT_COLORS[skill.cat] || a }} />
+            <span style={{ fontFamily: "var(--ff-head)", fontSize: "0.9rem", fontWeight: 600 }}>{skill.name}</span>
+            <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              {skill.cat}
+            </span>
           </div>
         ))}
       </div>
 
-      {/* Certificaten sectie die pas verschijnt nadat alle skills zichtbaar zijn */}
-      <div
-        style={
-          isVisible
-            ? {
-              opacity: 0,
-              animation: `fadeIn 0.5s ease forwards ${certificatesSectionDelay}ms`,
-            }
-            : { opacity: 0 }
-        }
-      >          <h2 className="text-3xl font-bold mt-16 mb-8 text-center text-gray-900 dark:text-white">
+      {/* Certifications */}
+      <div style={{ marginTop: "5rem" }}>
+        <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.5rem" }}>
           Certifications
-        </h2>
-
-        <div className="flex flex-wrap justify-center gap-8">
-          {certificates.map((cert, index) => (
+        </div>
+        <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+          {CERTS.map((cert, i) => (
             <a
-              key={index}
-              href={cert.credentialUrl}
+              key={i}
+              href={cert.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block"
-              style={
-                isVisible
-                  ? {
-                    opacity: 0,
-                    animation: `fadeIn 0.5s ease forwards ${certificatesSectionDelay + 300 + index * 300
-                      }ms`,
-                  }
-                  : { opacity: 0 }
-              }
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                border: "1px solid var(--border)",
+                padding: "1rem 1.5rem",
+                borderRadius: "4px",
+                transition: "border-color 0.2s, background 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = `color-mix(in srgb, ${a} 40%, transparent)`;
+                el.style.background = "var(--surface)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "var(--border)";
+                el.style.background = "transparent";
+              }}
             >
-              <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-sm text-center max-w-[170px]">
-                <Image
-                  src={cert.imageUrl}
-                  alt={cert.name}
-                  width={150}
-                  height={150}
-                  className="mx-auto mb-3"
-                />
-                <h3 className="font-medium text-sm">{cert.name}</h3>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={cert.img} alt={cert.name} style={{ width: "44px", height: "44px" }} />
+              <div>
+                <div style={{ fontFamily: "var(--ff-head)", fontSize: "0.9rem", fontWeight: 600, color: "var(--text)" }}>
+                  {cert.name}
+                </div>
+                <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.65rem", color: a, letterSpacing: "0.08em" }}>
+                  Cisco · Credly ↗
+                </div>
               </div>
             </a>
           ))}
         </div>
       </div>
-    </div>
-  </section>
+      <style>{`
+        @media (max-width: 480px) {
+          .skills-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+        }
+      `}</style>
+    </section>
   );
-};
-
-export default Skills;
+}

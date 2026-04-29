@@ -1,60 +1,107 @@
-import React from 'react';
+"use client";
 
-const Contact = () => {
+import React, { useEffect, useRef, useState } from "react";
+
+const SOCIALS = [
+  { label: "LinkedIn", value: "tom-kluskens", href: "https://www.linkedin.com/in/tom-kluskens-562a8522b/" },
+  { label: "GitHub", value: "TKluskens", href: "https://github.com/TKluskens" },
+];
+
+export default function Contact() {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [accent, setAccent] = useState("");
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.1 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const update = () => setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
+    update();
+    const obs = new MutationObserver(update);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
+    return () => obs.disconnect();
+  }, []);
+
+  const a = accent || "var(--accent)";
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%", padding: "0.9rem 1rem", background: "var(--surface)",
+    border: "1px solid var(--border)", color: "var(--text)", fontFamily: "var(--ff-body)",
+    fontSize: "0.95rem", borderRadius: "2px", outline: "none", transition: "border-color 0.2s",
+  };
+
   return (
-    <section id="contact" className="py-20">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-12 text-center">Get In Touch</h2>
-        <div className="max-w-2xl mx-auto">
-          <form className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="name" className="block mb-2 font-medium">Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" 
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block mb-2 font-medium">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" 
-                  placeholder="Your email"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="subject" className="block mb-2 font-medium">Subject</label>
-              <input 
-                type="text" 
-                id="subject" 
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" 
-                placeholder="Subject"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block mb-2 font-medium">Message</label>
-              <textarea 
-                id="message" 
-                rows={5} 
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" 
-                placeholder="Your message"
-              ></textarea>
-            </div>
-            <div>
-              <button className="w-full py-3 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">
-                Send Message
-              </button>
-            </div>
-          </form>
-        </div>
+    <section id="contact" ref={ref} style={{ padding: "8rem 2rem", maxWidth: "1200px", margin: "0 auto", opacity: visible ? 1 : 0, transition: "opacity 0.8s ease" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "1.5rem", marginBottom: "4rem" }}>
+        <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: a, letterSpacing: "0.1em" }}>06</span>
+        <h2 style={{ fontFamily: "var(--ff-head)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1 }}>Contact</h2>
+        <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
       </div>
+
+      <div className="contact-grid">
+        <div>
+          <p style={{ fontSize: "1.2rem", fontWeight: 300, lineHeight: 1.7, marginBottom: "3rem", color: "var(--muted)" }}>
+            Looking for a developer who delivers and collaborates well? Let&apos;s talk.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            {SOCIALS.map(({ label, value, href }) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", borderTop: "1px solid var(--border)", paddingTop: "1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
+                <span style={{ color: a, fontFamily: "var(--ff-head)", fontWeight: 600, fontSize: "0.9rem" }}>{value} →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div className="contact-name-email">
+            <input placeholder="Name" style={inputStyle} onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = a)} onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "var(--border)")} />
+            <input type="email" placeholder="Email" style={inputStyle} onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = a)} onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "var(--border)")} />
+          </div>
+          <div style={{ marginBottom: "1rem" }}>
+            <input placeholder="Subject" style={inputStyle} onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = a)} onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "var(--border)")} />
+          </div>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <textarea placeholder="Your message" rows={5} style={{ ...inputStyle, resize: "vertical", fontFamily: "var(--ff-body)" }} onFocus={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = a)} onBlur={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = "var(--border)")} />
+          </div>
+          <button type="submit" style={{ width: "100%", padding: "1rem", background: a, color: "var(--bg)", fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.06em", textTransform: "uppercase", border: "none", borderRadius: "2px", cursor: "pointer", transition: "opacity 0.2s" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.85")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <style>{`
+        .contact-grid {
+          display: grid;
+          grid-template-columns: 1fr 1.5fr;
+          gap: 6rem;
+          align-items: start;
+        }
+        .contact-name-email {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+          .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+          }
+          .contact-name-email {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </section>
   );
-};
-
-export default Contact;
+}

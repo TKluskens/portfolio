@@ -2,176 +2,86 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-const Experience = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+const EXPERIENCE = [
+  { title: "Intern · Thesis on AI & Energy", company: "Turtle Srl", period: "2023 & 2026 · Internship", location: "Cesenatico, Italy", description: "First internship in 2023: built a data-visualization dashboard in a live production environment. Returning in 2026 to complete my bachelor thesis on AI & Energy Efficiency.", current: true },
+  { title: "Developer", company: "AE", period: "September 2026", location: "Belgium", description: "Starting as a developer at AE — a Belgian IT consultancy focused on digital transformation, data and software engineering.", upcoming: true },
+  { title: "Student Worker", company: "Delhaize", period: "2021 – 2022 · 1 year", location: "Ghent, Belgium", description: "Customer service and retail operations. Developed reliability, communication and working under pressure." },
+  { title: "Student Worker", company: "McDonald's", period: "2022 – Present · 2+ years", location: "Ghent, Belgium", description: "Fast-paced customer service and team collaboration. Learned how to stay sharp and efficient in demanding environments.", current: true },
+];
 
-  // Setup Intersection Observer to detect when section is in viewport
+export default function Experience() {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [accent, setAccent] = useState("");
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          // Once visible, we don't need to observe anymore
-          if (sectionRef.current) {
-            observer.unobserve(sectionRef.current);
-          }
-        }
-      },
-      {
-        threshold: 0.15, // Trigger when 15% of the section is visible
-        rootMargin: "0px",
-      }
-    );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.1 });
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
-  const experiences = [
-    {
-      title: "Student Worker",
-      company: "McDonald's",
-      period: "2022 - Present",
-      duration: "2 years",
-      description:
-        "Working as a student employee, developing customer service skills and teamwork in a fast-paced environment.",
-      year: "2022",
-      isOngoing: true,
-    },
-    {
-      title: "Web Developer Intern",
-      company: "Turtle Srl",
-      period: "March 2023",
-      duration: "1 month",
-      description:
-        "Worked as a web developer intern in Italy, creating dynamic websites with data visualization capabilities.",
-      year: "2023",
-      isOngoing: false,
-    },
-    {
-      title: "Student Worker",
-      company: "Delhaize",
-      period: "2021 - 2022",
-      duration: "1 year",
-      description:
-        "Worked as a student employee, gaining experience in customer service and retail operations.",
-      year: "2021",
-      isOngoing: false,
-    },
-  ].sort((a, b) => parseInt(a.year) - parseInt(b.year)); // Sort by year, oldest first (chronological)
+
+  useEffect(() => {
+    const update = () => setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
+    update();
+    const obs = new MutationObserver(update);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
+    return () => obs.disconnect();
+  }, []);
+
+  const a = accent || "var(--accent)";
 
   return (
-    <section id="experience" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300" ref={sectionRef}>
-      <div className="container mx-auto px-6">
-        <h2
-          className="text-3xl font-bold mb-16 text-center text-gray-900 dark:text-white"
-          style={
-            isVisible
-              ? {
-                opacity: 0,
-                animation: `fadeIn 0.5s ease forwards`,
-              }
-              : { opacity: 0 }
-          }
-        >
-          Work Experience
-        </h2>
-
-        {/* Timeline Container */}
-        <div className="max-w-6xl mx-auto relative">
-          {/* Vertical Timeline Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 hidden md:block"></div>
-
-          {/* Timeline Items */}
-          <div className="space-y-12">
-            {experiences.map((exp, index) => (
-              <div
-                key={index}
-                className={`flex flex-col md:flex-row items-center relative ${index % 2 === 0 ? 'md:flex-row-reverse' : ''
-                  }`}
-                style={
-                  isVisible
-                    ? {
-                      opacity: 0,
-                      animation: `fadeIn 1s ease forwards ${index * 300}ms`,
-                    }
-                    : { opacity: 0 }
-                }
-              >
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-gray-800 border-4 border-blue-500 rounded-full z-10 hidden md:block">
-                  {exp.isOngoing && (
-                    <div className="absolute inset-0 bg-green-500 rounded-full animate-pulse"></div>
-                  )}
-                </div>
-
-                {/* Year Badge */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 -top-8 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold hidden md:block">
-                  {exp.year}
-                </div>
-
-                {/* Experience Card */}
-                <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
-                  <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 group">
-                    {/* Mobile Year Badge */}
-                    <div className="md:hidden bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-bold inline-block mb-4">
-                      {exp.year}
-                    </div>
-
-                    {/* Card Header */}
-                    <div className="flex flex-col sm:flex-row justify-between items-start mb-3">
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                        {exp.title}
-                      </h3>
-                      <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                        <span className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm font-medium">
-                          {exp.company}
-                        </span>
-                        {exp.isOngoing && (
-                          <span className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            Current
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Period and Duration */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="text-blue-600 dark:text-blue-400 font-medium text-sm">
-                        {exp.period}
-                      </span>
-                      <span className="text-gray-500 dark:text-gray-400 text-sm">
-                        • {exp.duration}
-                      </span>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                      {exp.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Spacer for the other side */}
-                <div className="hidden md:block w-5/12"></div>              </div>
-            ))}
-          </div>
-
-          {/* Timeline End Dot */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-4 w-3 h-3 bg-gray-400 dark:bg-gray-600 rounded-full hidden md:block"></div>
-        </div>
+    <section id="experience" ref={ref} style={{ padding: "8rem 2rem", maxWidth: "1200px", margin: "0 auto", opacity: visible ? 1 : 0, transition: "opacity 0.8s ease" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "1.5rem", marginBottom: "4rem" }}>
+        <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: a, letterSpacing: "0.1em" }}>03</span>
+        <h2 style={{ fontFamily: "var(--ff-head)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1 }}>Experience</h2>
+        <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
       </div>
+
+      <div>
+        {EXPERIENCE.map((exp, i) => (
+          <div key={i} className="exp-row">
+            <div className="exp-meta">
+              <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.08em", marginBottom: "0.3rem", textTransform: "uppercase" }}>{exp.period}</div>
+              <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.08em" }}>{exp.location}</div>
+            </div>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.3rem", flexWrap: "wrap" }}>
+                <h3 style={{ fontFamily: "var(--ff-head)", fontSize: "1.15rem", fontWeight: 700 }}>{exp.title}</h3>
+                {exp.current && (
+                  <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", padding: "0.2rem 0.5rem", background: `color-mix(in srgb, ${a} 12%, transparent)`, color: a, border: `1px solid color-mix(in srgb, ${a} 28%, transparent)`, borderRadius: "2px", letterSpacing: "0.08em", textTransform: "uppercase" }}>Current</span>
+                )}
+                {exp.upcoming && (
+                  <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", padding: "0.2rem 0.5rem", background: "oklch(72% 0.16 150 / 0.15)", color: "oklch(72% 0.16 150)", border: "1px solid oklch(72% 0.16 150 / 0.3)", borderRadius: "2px", letterSpacing: "0.08em", textTransform: "uppercase" }}>Upcoming</span>
+                )}
+              </div>
+              <div style={{ color: "var(--muted)", fontSize: "0.95rem", marginBottom: "0.6rem" }}>{exp.company}</div>
+              <p style={{ color: "var(--muted)", fontSize: "0.95rem", lineHeight: 1.7 }}>{exp.description}</p>
+            </div>
+          </div>
+        ))}
+        <div style={{ borderTop: "1px solid var(--border)" }} />
+      </div>
+
+      <style>{`
+        .exp-row {
+          display: grid;
+          grid-template-columns: 180px 1fr;
+          gap: 3rem;
+          border-top: 1px solid var(--border);
+          padding: 2.5rem 0;
+          align-items: start;
+        }
+        @media (max-width: 640px) {
+          .exp-row {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            padding: 1.75rem 0;
+          }
+        }
+      `}</style>
     </section>
   );
-};
-
-export default Experience;
+}
