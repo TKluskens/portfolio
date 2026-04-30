@@ -19,12 +19,12 @@
 }
 
 :root.light {
-  --bg: oklch(96% 0.018 72);
-  --surface: oklch(92% 0.022 72);
-  --surface2: oklch(88% 0.025 72);
-  --border: oklch(80% 0.03 60);
-  --text: oklch(16% 0.012 30);
-  --muted: oklch(44% 0.018 30);
+  --bg: oklch(100% 0 0);
+  --surface: oklch(96% 0 0);
+  --surface2: oklch(92% 0 0);
+  --border: oklch(85% 0 0);
+  --text: oklch(15% 0 0);
+  --muted: oklch(45% 0 0);
 }
 
 html {

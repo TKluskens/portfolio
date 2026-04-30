@@ -116,7 +116,7 @@ export default function Header() {
           backdropFilter: "blur(16px)",
           borderBottom: "1px solid var(--border)",
           padding: menuOpen ? "1.5rem" : "0 1.5rem",
-          maxHeight: menuOpen ? "400px" : "0",
+          maxHeight: menuOpen ? "500px" : "0",
           overflow: "hidden",
           transition: "max-height 0.35s ease, padding 0.35s ease",
           display: "none",
@@ -146,11 +146,12 @@ export default function Header() {
             rel="noopener noreferrer"
             onClick={() => setMenuOpen(false)}
             style={{
-              display: "inline-block", marginTop: "1rem",
+              display: "inline-flex", alignItems: "center", alignSelf: "flex-start",
+              marginTop: "1rem", marginBottom: "0.5rem",
               padding: "0.75rem 1.5rem", border: `1px solid ${a}`, color: a,
               borderRadius: "2px", fontSize: "0.85rem", textDecoration: "none",
               fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase",
-              fontFamily: "var(--ff-head)", alignSelf: "flex-start",
+              fontFamily: "var(--ff-head)",
             }}
           >
             LinkedIn →

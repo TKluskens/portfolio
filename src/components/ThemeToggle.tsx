@@ -47,7 +47,7 @@ export default function ThemeToggle() {
         width: "52px",
 
         height: "28px",
-        background: dark ? "oklch(22% 0.01 240)" : "oklch(85% 0.03 60)",
+        background: dark ? "oklch(22% 0.01 240)" : "oklch(92% 0 0)",
         border: "1px solid var(--border)",
         borderRadius: "999px",
         cursor: "pointer",
@@ -91,7 +91,7 @@ export default function ThemeToggle() {
           width: "20px",
           height: "20px",
           borderRadius: "50%",
-          background: dark ? "oklch(72% 0.01 240)" : "oklch(72% 0.12 70)",
+          background: dark ? "oklch(72% 0.01 240)" : "#c0392b",
           boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
           transition: "left 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.4s",
           display: "flex",
