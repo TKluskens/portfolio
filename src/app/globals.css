@@ -13,9 +13,9 @@
   --muted: oklch(52% 0.012 240);
   --accent: oklch(72% 0.16 45);
   --accent-dim: color-mix(in srgb, var(--accent) 28%, transparent);
-  --ff-head: var(--font-syne), 'Syne', sans-serif;
-  --ff-body: var(--font-dm-sans), 'DM Sans', sans-serif;
-  --ff-mono: var(--font-dm-mono), 'DM Mono', monospace;
+  --ff-head: 'Syne', sans-serif;
+  --ff-body: 'Syne', sans-serif;
+  --ff-mono: 'Syne', sans-serif;
 }
 
 :root.light {
