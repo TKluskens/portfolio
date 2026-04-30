@@ -10,8 +10,26 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "Tom Kluskens",
-  description: "Portfolio of Tom Kluskens — Full Stack Developer",
+  title: { default: "Tom Kluskens", template: "%s · Tom Kluskens" },
+  description: "Portfolio of Tom Kluskens — Full Stack Developer based in Ghent, Belgium. Specializing in React, Next.js, TypeScript, and modern web development.",
+  keywords: ["Tom Kluskens", "Full Stack Developer", "Frontend Developer", "React", "Next.js", "TypeScript", "Ghent", "Belgium"],
+  authors: [{ name: "Tom Kluskens", url: "https://github.com/TKluskens" }],
+  creator: "Tom Kluskens",
+  metadataBase: new URL("https://tomkluskens.vercel.app"),
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://tomkluskens.vercel.app",
+    siteName: "Tom Kluskens",
+    title: "Tom Kluskens — Full Stack Developer",
+    description: "Portfolio of Tom Kluskens — Full Stack Developer based in Ghent, Belgium.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tom Kluskens — Full Stack Developer",
+    description: "Portfolio of Tom Kluskens — Full Stack Developer based in Ghent, Belgium.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
