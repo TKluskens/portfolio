@@ -10,10 +10,14 @@ import Thesis from "../components/Thesis";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import ThemeToggle from "../components/ThemeToggle";
+import SmoothScroll from "../components/SmoothScroll";
+import CustomCursor from "../components/CustomCursor";
 
 export default function Home() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)" }}>
+      <SmoothScroll />
+      <CustomCursor />
       <Header />
       <Hero />
       <div style={{ height: "1px", background: "var(--border)", margin: "0 2rem" }} />

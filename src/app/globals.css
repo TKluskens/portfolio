@@ -40,13 +40,18 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   transition: background-color 0.35s ease, color 0.35s ease;
+  cursor: none;
 }
+
+*, *::before, *::after { cursor: none !important; }
 
 ::selection { background: var(--accent); color: var(--bg); }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: oklch(72% 0.16 45); border-radius: 2px; }
+
+:root.light ::-webkit-scrollbar-thumb { background: oklch(55% 0.22 25); }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }

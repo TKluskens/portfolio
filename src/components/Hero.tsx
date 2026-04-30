@@ -45,7 +45,7 @@ export default function Hero() {
       </div>
 
       {/* Big name */}
-      <div style={{ position: "relative", zIndex: 1 }}>
+      <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
         <h1
           className="fade-up fade-up-2 hero-name"
           style={{ fontFamily: "var(--ff-head)", fontWeight: 800, lineHeight: 0.88, letterSpacing: "-0.03em", color: "var(--text)", marginBottom: "2rem" }}
@@ -63,7 +63,7 @@ export default function Hero() {
       </div>
 
       {/* Bottom bar */}
-      <div className="fade-up fade-up-4 hero-bottom">
+      <div className="fade-up fade-up-4 hero-bottom" style={{ position: "relative", zIndex: 2 }}>
         <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.1em" }}>Ghent, Belgium</div>
         <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
           <a
@@ -92,7 +92,6 @@ export default function Hero() {
           display: flex; justify-content: space-between; align-items: flex-start;
         }
         .hero-bottom {
-          position: absolute; bottom: 2rem; left: 2rem; right: 2rem;
           display: flex; justify-content: space-between; align-items: center;
           border-top: 1px solid var(--border); padding-top: 1rem;
         }
@@ -102,13 +101,10 @@ export default function Hero() {
           .hero-top-row { display: none !important; }
           .hero-mobile-sub { display: block !important; }
           .hero-bottom {
-            position: static !important;
             flex-direction: column !important;
             align-items: flex-start !important;
             gap: 1rem;
             margin-top: 2rem;
-            border-top: 1px solid var(--border);
-            padding-top: 1rem;
           }
         }
       `}</style>

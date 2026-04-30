@@ -138,23 +138,28 @@ export default function Skills() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+          gridAutoRows: "1fr",
           gap: "1px",
           background: "var(--border)",
           border: "1px solid var(--border)",
         }}
       >
         {filtered.map((skill, i) => (
-          <div
-            key={i}
-            style={{ background: "var(--bg)", padding: "1.25rem 1rem", display: "flex", flexDirection: "column", gap: "0.5rem", transition: "background 0.2s" }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--surface)")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--bg)")}
-          >
-            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: CAT_COLORS[skill.cat] || a }} />
-            <span style={{ fontFamily: "var(--ff-head)", fontSize: "0.9rem", fontWeight: 600 }}>{skill.name}</span>
-            <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              {skill.cat}
-            </span>
+          <div key={i} className="skill-flip-outer">
+            <div className="skill-flip-inner">
+              {/* Front */}
+              <div className="skill-face skill-front" style={{ background: "var(--bg)" }}>
+                <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: CAT_COLORS[skill.cat] || a }} />
+                <span style={{ fontFamily: "var(--ff-head)", fontSize: "0.9rem", fontWeight: 600 }}>{skill.name}</span>
+                <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{skill.cat}</span>
+              </div>
+              {/* Back */}
+              <div className="skill-face skill-back" style={{ background: CAT_COLORS[skill.cat] || a }}>
+                <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--bg)", opacity: 0.5 }} />
+                <span style={{ fontFamily: "var(--ff-head)", fontSize: "0.9rem", fontWeight: 600, color: "var(--bg)" }}>{skill.name}</span>
+                <span style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", color: "var(--bg)", opacity: 0.7, letterSpacing: "0.08em", textTransform: "uppercase" }}>{skill.cat}</span>
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -207,6 +212,32 @@ export default function Skills() {
         </div>
       </div>
       <style>{`
+        .skill-flip-outer {
+          perspective: 600px;
+          display: flex;
+        }
+        .skill-flip-inner {
+          flex: 1;
+          display: grid;
+          grid-template-areas: "stack";
+          transform-style: preserve-3d;
+          transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .skill-flip-outer:hover .skill-flip-inner {
+          transform: rotateY(180deg);
+        }
+        .skill-face {
+          grid-area: stack;
+          padding: 1.25rem 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+        .skill-back {
+          transform: rotateY(180deg);
+        }
         @media (max-width: 480px) {
           .skills-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
         }

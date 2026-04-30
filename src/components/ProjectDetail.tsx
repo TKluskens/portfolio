@@ -155,6 +155,57 @@ function PrivateBadge({ client }: { client: string }) {
   );
 }
 
+function ScreenshotFrame({
+  src,
+  alt,
+  ratio = "16 / 9",
+  maxWidth,
+  imageStyle,
+}: {
+  src: string;
+  alt: string;
+  ratio?: string;
+  maxWidth?: string;
+  imageStyle?: React.CSSProperties;
+}) {
+  return (
+    <div
+      style={{
+        marginBottom: "3rem",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: maxWidth ?? "100%",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: ratio,
+          }}
+        >
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="(max-width: 840px) 100vw, 800px"
+            style={{
+              objectFit: "contain",
+              ...imageStyle,
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Project types ─────────────────────────────────────────────────────────────
 
 export type PublicProject = {
@@ -192,7 +243,7 @@ function DetailShell({
   onClose: () => void;
 }) {
   return (
-    <div style={{ minHeight: "100vh", background: bg, color: text, fontFamily: "var(--ff-body)", overflowY: "auto" }}>
+    <div style={{ minHeight: "100%", background: bg, color: text, fontFamily: "var(--ff-body)" }}>
       <div style={{
         borderBottom: `1px solid ${border}`,
         padding: "1rem 1.25rem",
@@ -251,9 +302,11 @@ function LibraryDetail({ project, onClose }: { project: AnyProject; onClose: () 
         "Admin dashboard with live stats",
       ]} />
 
-      <div style={{ marginBottom: "3rem", border: `1px solid ${border}`, overflow: "hidden", position: "relative", height: "300px" }}>
-        <Image src="/files/Project_Bib.jpg" alt="School Library" fill style={{ objectFit: "cover", objectPosition: "top", filter: "sepia(10%) contrast(1.05)" }} />
-      </div>
+      <ScreenshotFrame
+        src="/files/Project_Bib.jpg"
+        alt="School Library"
+        imageStyle={{ filter: "sepia(10%) contrast(1.05)" }}
+      />
 
       <SectionBlock accent={accent} border={border} muted={muted} marker="//" title="What it does"
         body="The system manages the full lifecycle of a school library: book inventory, student loan records, return tracking, and overdue alerts. Every book added to the system gets a unique ISBN assigned and a QR code generated — students or librarians can scan to instantly look up a book's status. An admin dashboard shows live inventory stats and loan history."
@@ -306,9 +359,7 @@ function TurtleDetail({ project, onClose }: { project: AnyProject; onClose: () =
         "Zero-build-step — runs in any browser",
       ]} />
 
-      <div style={{ marginBottom: "3rem", border: `1px solid ${border}`, overflow: "hidden", position: "relative", height: "300px" }}>
-        <Image src="/files/Project_Italie.png" alt="Dashboard" fill style={{ objectFit: "cover", objectPosition: "top" }} />
-      </div>
+      <ScreenshotFrame src="/files/Project_Italie.png" alt="Dashboard" />
 
       <SectionBlock accent={accent} border={border} muted={muted} marker="→" title="What it does"
         body="The dashboard ingests customer data exported from Turtle Srl's internal systems and renders it as a suite of interactive charts — bar charts, line graphs, and summary tables. It gives the sales and operations team a visual overview of customer activity, trends, and KPIs without touching raw spreadsheets."
@@ -361,9 +412,7 @@ function RecipeDetail({ project, onClose }: { project: AnyProject; onClose: () =
         "Student-first UI, mobile-friendly",
       ]} />
 
-      <div style={{ marginBottom: "3rem", border: `1px solid ${border}`, overflow: "hidden", position: "relative", height: "300px" }}>
-        <Image src="/files/Project_Recept.png" alt="Recipe Relay" fill style={{ objectFit: "cover", objectPosition: "top" }} />
-      </div>
+      <ScreenshotFrame src="/files/Project_Recept.png" alt="Recipe Relay" />
 
       <SectionBlock accent={accent} border={border} muted={muted} marker="◆" title="What it does"
         body="Recipe Relay is a full social platform for sharing recipes — students can create an account, post recipes with photos, follow friends, like and comment on dishes, and discover trending meals. Think of it as a student-focused cooking community where the feed is built around your social graph."
@@ -416,9 +465,7 @@ function ConfyDetail({ project, onClose }: { project: AnyProject; onClose: () =>
         "Full admin panel for all entities",
       ]} />
 
-      <div style={{ marginBottom: "3rem", border: `1px solid ${border}`, overflow: "hidden", position: "relative", height: "300px" }}>
-        <Image src="/files/ConfySpring.png" alt="ConfySpring" fill style={{ objectFit: "cover", objectPosition: "top" }} />
-      </div>
+      <ScreenshotFrame src="/files/ConfySpring.png" alt="ConfySpring" />
 
       <SectionBlock accent={accent} border={border} muted={muted} marker="▹" title="What it does"
         body="ConfySpring is a complete conference management platform. Organisers can create events, add speakers and sessions, assign rooms, and manage capacity. Attendees register for sessions, get confirmation emails, and can browse the schedule. The admin panel gives full control over all entities."
@@ -471,9 +518,7 @@ function DelawareDetail({ project, onClose }: { project: AnyProject; onClose: ()
         "Role-based access for operators and admins",
       ]} />
 
-      <div style={{ marginBottom: "3rem", border: `1px solid ${border}`, overflow: "hidden", position: "relative", height: "300px" }}>
-        <Image src="/files/Project_Dellaware.png" alt="Delaware Dashboard" fill style={{ objectFit: "cover", objectPosition: "top" }} />
-      </div>
+      <ScreenshotFrame src="/files/Project_Dellaware.png" alt="Delaware Dashboard" />
 
       <SectionBlock accent={accent} border={border} muted={muted} marker="→" title="What it does"
         body="The dashboard gives Delaware's clients a real-time view of their production floor: each machine's online/offline/warning status, uptime KPIs, and per-site breakdowns. Operators can filter by site, drill into machine history, and see alerts. The design prioritises scanability for factory-floor use."
@@ -648,6 +693,64 @@ function EchoDetail({ project, onClose }: { project: AnyProject; onClose: () => 
   );
 }
 
+// ── 9. Nodo ───────────────────────────────────────────────────────────────────
+function NodoDetail({ project, onClose }: { project: AnyProject; onClose: () => void }) {
+  const isLight = useIsLight();
+  const { accent, bg, surface, border, muted, text } = palette(isLight, 40, 0.22, 62);
+  const p = project as PublicProject;
+
+  return (
+    <DetailShell bg={bg} text={text} border={border} accent={accent}
+      headerLabel="NODO · 2025"
+      headerRight={<GitHubLink url={p.sourceLink} accent={accent} />}
+      onClose={onClose}
+    >
+      <div style={{ marginBottom: "3.5rem" }}>
+        <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: accent, marginBottom: "1rem", letterSpacing: "0.1em" }}>HOGENT · TEAM OF 6 · CLEAN ARCHITECTURE</div>
+        <h1 style={{ fontFamily: "var(--ff-head)", fontSize: "clamp(2.5rem,6vw,5rem)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 0.9, marginBottom: "1.5rem" }}>
+          Nodo
+        </h1>
+        <p style={{ fontSize: "1.05rem", lineHeight: 1.8, color: muted, maxWidth: "580px" }}>
+          Social media platform designed for people with mental difficulties — safe spaces, real-time chat, educator oversight, and push notifications, all in a Blazor WASM app.
+        </p>
+      </div>
+
+      <FeaturesCard accent={accent} borderColor={border} bg={surface} mutedColor={muted} features={[
+        "Social feed with posts, reactions and comments",
+        "Real-time group & direct chat via SignalR",
+        "Push notifications with VAPID / WebPush",
+        "Educator and admin role management",
+        "Profile pictures & account management",
+        "Dual database: MySQL (relational) + MongoDB (chat)",
+      ]} />
+
+      <ScreenshotFrame
+        src="/files/nodo.png"
+        alt="Nodo"
+        ratio="9 / 16"
+        maxWidth="280px"
+      />
+
+      <SectionBlock accent={accent} border={border} muted={muted} marker="◇" title="What it does"
+        body="Nodo is a social platform built with accessibility in mind for users with mental difficulties. Users can post to a feed, react and comment, chat in real time with individuals or groups, and receive push notifications for activity. Educators can oversee their group's users, while admins manage roles and accounts across the platform."
+      />
+      <SectionBlock accent={accent} border={border} muted={muted} marker="◇" title="How it's built"
+        body="Blazor WebAssembly frontend served by an ASP.NET 9 host. FastEndpoints exposes the REST API with FluentValidation on every endpoint. Entity Framework 9 with Pomelo handles the MySQL relational store; MongoDB with the official EF provider stores chat history and projections. SignalR hubs power real-time chat and notifications. Tailwind CSS is compiled via npm. Built by a team of 6 at HoGent using Clean Architecture, DDD, and vertical slicing."
+      />
+      <SectionBlock accent={accent} border={border} muted={muted} marker="◇" title="Architecture"
+        body="Five-layer Clean Architecture: Domain → Services → Persistence → Server → Client, plus a Shared DTOs/contracts project. The Blazor WASM client talks to FastEndpoints over HTTP and connects to SignalR hubs for real-time updates. A centralised GlobalResponseSender post-processor maps Ardalis.Result return values to consistent HTTP codes. MySQL backs relational data; MongoDB handles the chat subsystem. xUnit, bUnit, nSubstitute and Shouldly cover domain, service, endpoint and component tests."
+      />
+
+      <div>
+        <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", color: accent, marginBottom: "0.75rem", letterSpacing: "0.1em" }}>STACK</div>
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          {p.tags.map(t => <TechTag key={t} name={t} border={border} color={muted} />)}
+        </div>
+      </div>
+    </DetailShell>
+  );
+}
+
 // ── Detail page dispatcher ────────────────────────────────────────────────────
 
 const DETAIL_MAP: Record<string, React.FC<{ project: AnyProject; onClose: () => void }>> = {
@@ -656,6 +759,7 @@ const DETAIL_MAP: Record<string, React.FC<{ project: AnyProject; onClose: () => 
   recipe:      RecipeDetail,
   confy:       ConfyDetail,
   delaware:    DelawareDetail,
+  nodo:        NodoDetail,
   webscraper:  WebscraperDetail,
   websearcher: WebsearcherDetail,
   echo:        EchoDetail,
@@ -666,24 +770,58 @@ function ProjectDetailPage({ project, onClose }: { project: AnyProject; onClose:
   return <Component project={project} onClose={onClose} />;
 }
 
+const PROJECT_CURSOR_ACCENTS: Record<string, string> = {
+  library: "oklch(48% 0.13 5)",
+  turtle: "oklch(62% 0.16 250)",
+  recipe: "oklch(68% 0.18 45)",
+  confy: "oklch(65% 0.2 145)",
+  delaware: "oklch(58% 0.2 25)",
+  nodo: "oklch(62% 0.22 40)",
+  webscraper: "oklch(62% 0.18 290)",
+  websearcher: "oklch(60% 0.17 265)",
+  echo: "oklch(64% 0.16 185)",
+};
+
 // ── Slide overlay ─────────────────────────────────────────────────────────────
 
 export function DetailOverlay({ project, onClose }: { project: AnyProject | null; onClose: () => void }) {
   const [open, setOpen] = useState(false);
   const prevProject = useRef<AnyProject | null>(null);
   const onCloseRef = useRef(onClose);
+  const bodyOverflowRef = useRef<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   onCloseRef.current = onClose;
 
   useEffect(() => {
     if (project) {
       prevProject.current = project;
       requestAnimationFrame(() => setOpen(true));
+      scrollRef.current?.scrollTo({ top: 0 });
+      document.documentElement.style.setProperty(
+        "--project-cursor-accent",
+        PROJECT_CURSOR_ACCENTS[project.id] ?? "var(--accent)"
+      );
+      if (bodyOverflowRef.current === null) {
+        bodyOverflowRef.current = document.body.style.overflow;
+      }
       document.body.style.overflow = "hidden";
       history.pushState({ detailOverlay: true }, "", location.pathname + "#project-" + project.id);
     } else {
       setOpen(false);
-      document.body.style.overflow = "";
+      document.documentElement.style.removeProperty("--project-cursor-accent");
+      if (bodyOverflowRef.current !== null) {
+        document.body.style.overflow = bodyOverflowRef.current;
+        bodyOverflowRef.current = null;
+      }
     }
+
+    return () => {
+      document.documentElement.style.removeProperty("--project-cursor-accent");
+      if (bodyOverflowRef.current !== null) {
+        document.body.style.overflow = bodyOverflowRef.current;
+        bodyOverflowRef.current = null;
+      }
+    };
   }, [project]);
 
   // Browser back button: listen for popstate and close overlay
@@ -732,15 +870,45 @@ export function DetailOverlay({ project, onClose }: { project: AnyProject | null
         }}
       />
       <div
+        ref={scrollRef}
+        data-lenis-prevent
+        className="detail-overlay-scroll"
         style={{
-          position: "fixed", inset: 0, zIndex: 100,
-          transform: open ? "translateX(0)" : "translateX(100%)",
-          transition: "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+          position: "fixed",
+          inset: 0,
+          zIndex: 100,
+          height: "100dvh",
+          width: "100vw",
           overflowY: "auto",
+          overflowX: "hidden",
+          overscrollBehavior: "contain",
+          WebkitOverflowScrolling: "touch",
+          touchAction: "pan-y",
+          pointerEvents: open ? "auto" : "none",
         }}
       >
-        {displayed && <ProjectDetailPage project={displayed} onClose={handleClose} />}
+        <div
+          style={{
+            minHeight: "100%",
+            width: "100%",
+            maxWidth: "100%",
+            transform: open ? "translateX(0)" : "translateX(100%)",
+            transition: "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+            overflowX: "hidden",
+          }}
+        >
+          {displayed && <ProjectDetailPage project={displayed} onClose={handleClose} />}
+        </div>
       </div>
+      <style>{`
+        .detail-overlay-scroll {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .detail-overlay-scroll::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </>
   );
 }
