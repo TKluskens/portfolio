@@ -505,7 +505,7 @@ function DelawareDetail({ project, onClose }: { project: AnyProject; onClose: ()
           Machine Status<br />Dashboard
         </h1>
         <p style={{ fontSize: "1.05rem", lineHeight: 1.8, color: muted, maxWidth: "560px" }}>
-          Real-time machine monitoring dashboard for Delaware's industrial clients — tracks machine health, uptime KPIs, and status across multiple production sites.
+          Real-time machine monitoring dashboard for Delaware&apos;s industrial clients — tracks machine health, uptime KPIs, and status across multiple production sites.
         </p>
       </div>
 
