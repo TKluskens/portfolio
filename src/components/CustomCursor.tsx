@@ -2,22 +2,55 @@
 
 import { useEffect, useRef, useState } from "react";
 
+function parseRgb(color: string) {
+  const match = color.match(/\d+(\.\d+)?/g);
+  if (!match || match.length < 3) return null;
+  const values = match.map(Number);
+  return {
+    r: values[0],
+    g: values[1],
+    b: values[2],
+    a: values[3] ?? 1,
+  };
+}
+
+function relativeLuminance(r: number, g: number, b: number) {
+  const toLinear = (value: number) => {
+    const channel = value / 255;
+    return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+  };
+
+  return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+}
+
 export default function CustomCursor() {
   const dot = useRef<HTMLDivElement>(null);
-  const [color, setColor] = useState("oklch(72% 0.16 45)");
+  const baseColorRef = useRef("oklch(72% 0.16 45)");
+  const isLightRef = useRef(false);
+  const [color, setColor] = useState(() => {
+    if (typeof document === "undefined") return "oklch(72% 0.16 45)";
+    return getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "oklch(72% 0.16 45)";
+  });
+  const [blendMode, setBlendMode] = useState<"difference" | "normal">(() => {
+    if (typeof document === "undefined") return "difference";
+    return document.documentElement.classList.contains("light") ? "normal" : "difference";
+  });
 
   useEffect(() => {
-    const updateColor = () => {
+    const updateCursorTheme = () => {
       const root = document.documentElement;
+      const isLight = root.classList.contains("light");
       const projectAccent = root.style.getPropertyValue("--project-cursor-accent").trim();
-      const fallback = root.classList.contains("light")
-        ? "oklch(55% 0.22 25)"
-        : "oklch(72% 0.16 45)";
-      setColor(projectAccent || fallback);
+      const fallback = getComputedStyle(root).getPropertyValue("--accent").trim() || "oklch(72% 0.16 45)";
+      const nextColor = projectAccent || fallback;
+      baseColorRef.current = nextColor;
+      isLightRef.current = isLight;
+      setColor(nextColor);
+      setBlendMode(isLight ? "normal" : "difference");
     };
 
-    updateColor();
-    const obs = new MutationObserver(updateColor);
+    updateCursorTheme();
+    const obs = new MutationObserver(updateCursorTheme);
     obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "style"] });
     return () => obs.disconnect();
   }, []);
@@ -32,7 +65,7 @@ export default function CustomCursor() {
       x = e.clientX;
       y = e.clientY;
       const el = document.elementFromPoint(x, y);
-      const clickable = el?.closest("a, button, [role='button'], input, textarea, select, label, [tabindex], .list-card, .skill-flip-outer, [style*='cursor: pointer'], [style*='cursor:pointer']");
+      const clickable = el?.closest<HTMLElement>("a, button, [role='button'], input, textarea, select, label, [tabindex], .list-card, .skill-flip-outer, [style*='cursor: pointer'], [style*='cursor:pointer']");
       const next = !!clickable;
       if (next !== isPointer) {
         isPointer = next;
@@ -41,6 +74,19 @@ export default function CustomCursor() {
           dot.current.style.height = isPointer ? "20px" : "10px";
           dot.current.style.marginLeft = isPointer ? "-10px" : "-5px";
           dot.current.style.marginTop = isPointer ? "-10px" : "-5px";
+        }
+      }
+
+      if (dot.current) {
+        if (isLightRef.current) {
+          const clickableBg = clickable ? parseRgb(getComputedStyle(clickable).backgroundColor) : null;
+          const hasSolidFill = clickableBg && clickableBg.a > 0.85;
+          const nextColor = hasSolidFill && relativeLuminance(clickableBg.r, clickableBg.g, clickableBg.b) < 0.6
+            ? "#ffffff"
+            : baseColorRef.current;
+          dot.current.style.background = nextColor;
+        } else {
+          dot.current.style.background = baseColorRef.current;
         }
       }
     };
@@ -79,7 +125,7 @@ export default function CustomCursor() {
         pointerEvents: "none",
         zIndex: 9999,
         willChange: "transform",
-        mixBlendMode: "difference",
+        mixBlendMode: blendMode,
         transition: "width 0.25s ease, height 0.25s ease, margin 0.25s ease",
       }}
     />
