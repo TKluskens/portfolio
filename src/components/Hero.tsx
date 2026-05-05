@@ -64,7 +64,10 @@ export default function Hero() {
 
       {/* Bottom bar */}
       <div className="fade-up fade-up-4 hero-bottom" style={{ position: "relative", zIndex: 2 }}>
-        <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.1em" }}>Ghent, Belgium</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+          <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.1em" }}>Ghent, Belgium</div>
+          <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.6rem", color: "var(--muted)", opacity: 0.5, letterSpacing: "0.08em", textTransform: "uppercase" }}>Founder of Exinal</div>
+        </div>
         <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
           <a
             href="#projects"
