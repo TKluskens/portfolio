@@ -1,26 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useAccent } from "@/hooks/useTheme";
 
 export default function Hero() {
-  const [accent, setAccent] = useState("");
+  const a = useAccent();
   const [showCursor, setShowCursor] = useState(true);
-
-  useEffect(() => {
-    const update = () =>
-      setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
-    return () => obs.disconnect();
-  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("showCursor");
     if (saved !== null) setShowCursor(saved !== "false");
   }, []);
-
-  const a = accent || "var(--accent)";
 
   return (
     <section
@@ -36,7 +26,7 @@ export default function Hero() {
       <div className="hero-top-row">
         <div className="fade-up fade-up-1">
           <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.75rem", color: "var(--muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.4rem" }}>Currently</div>
-          <div style={{ color: "var(--text)", fontSize: "1rem", fontWeight: 300, maxWidth: "340px", lineHeight: 1.4 }}>Bachelor Applied IT · HoGent · Final Year</div>
+          <div style={{ color: "var(--text)", fontSize: "1rem", fontWeight: 300, maxWidth: "340px", lineHeight: 1.4 }}>AE · Dev Consultant</div>
         </div>
         <div className="fade-up fade-up-2" style={{ textAlign: "right" }}>
           <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.75rem", color: "var(--muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.4rem" }}>Specialization</div>
@@ -57,7 +47,7 @@ export default function Hero() {
 
         {/* Mobile subtitle */}
         <div className="hero-mobile-sub fade-up fade-up-3">
-          <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>Bachelor Applied IT · HoGent</div>
+          <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>AE · Dev Consultant</div>
           <div style={{ fontFamily: "var(--ff-mono)", fontSize: "0.7rem", color: "var(--muted)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Frontend Developer</div>
         </div>
       </div>

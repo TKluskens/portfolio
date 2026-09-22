@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { DetailOverlay, type AnyProject } from "./ProjectDetail";
+import { useAccent } from "@/hooks/useTheme";
 
 const PROJECTS: AnyProject[] = [
   { id: "echo",        title: "Echo",                    year: "2026", tags: ["React", "FastAPI", "PostgreSQL", "Redis", "Qdrant", "WhisperX", "LLM"], description: "Turns audio recordings of business interviews into structured Word documents. Transcribes MP3s via WhisperX, cleans with an LLM, lets users review and edit, then generates a full report by answering template paragraphs from transcriptions and vector retrieval.", client: "Turtle Srl" },
@@ -14,18 +15,6 @@ const PROJECTS: AnyProject[] = [
   { id: "turtle",      title: "Turtle SRL Dashboard",   year: "2023", tags: ["JavaScript", "HTML", "CSS"], description: "Data visualization dashboard converting customer data into charts. Built during my internship in Cesenatico, Italy.", imageUrl: "/files/Project_Italie.png", sourceLink: "https://github.com/TKluskens/Dashboard-Turtle" },
   { id: "library",     title: "School Library System",  year: "2023", tags: ["HTML", "PHP", "MySQL", "CSS"], description: "A school library system that automatically generates QR codes with unique ISBN numbers for every book.", imageUrl: "/files/Project_Bib.jpg", sourceLink: "https://github.com/TKluskens/SchoolBib" },
 ];
-
-function useAccent() {
-  const [accent, setAccent] = useState("");
-  useEffect(() => {
-    const update = () => setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
-    return () => obs.disconnect();
-  }, []);
-  return accent || "var(--accent)";
-}
 
 function TagList({ tags }: { tags: string[] }) {
   return (

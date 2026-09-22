@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useAccent } from "@/hooks/useTheme";
 
 const SOCIALS = [
   { label: "LinkedIn", value: "tom-kluskens", href: "https://www.linkedin.com/in/tom-kluskens-562a8522b/" },
@@ -12,7 +13,7 @@ type Status = "idle" | "loading" | "success" | "error";
 export default function Contact() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const [accent, setAccent] = useState("");
+  const a = useAccent();
   const [status, setStatus] = useState<Status>("idle");
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
 
@@ -23,16 +24,6 @@ export default function Contact() {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-
-  useEffect(() => {
-    const update = () => setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
-    return () => obs.disconnect();
-  }, []);
-
-  const a = accent || "var(--accent)";
 
   const inputStyle: React.CSSProperties = {
     width: "100%", padding: "0.9rem 1rem", background: "var(--surface)",

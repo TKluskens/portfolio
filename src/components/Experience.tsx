@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useAccent } from "@/hooks/useTheme";
 
 const EXPERIENCE = [
   { title: "Developer", company: "AE", period: "Sep 2026", type: "Full-time", location: "Belgium", description: "Starting as a developer at AE — a Belgian IT consultancy focused on digital transformation, data and software engineering.", upcoming: true },
@@ -68,22 +69,13 @@ function TimelineItem({ exp, index, accent, sectionVisible }: { exp: typeof EXPE
 export default function Experience() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const [accent, setAccent] = useState("");
-  const a = accent || "var(--accent)";
+  const a = useAccent();
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.05 });
     obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const update = () => setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
     return () => obs.disconnect();
   }, []);
 
@@ -100,7 +92,7 @@ export default function Experience() {
         <div className="timeline-line" style={{ background: `linear-gradient(to bottom, transparent, var(--border) 5%, var(--border) 95%, transparent)` }} />
 
         {EXPERIENCE.map((exp, i) => (
-          <TimelineItem key={i} exp={exp} index={i} accent={accent} sectionVisible={visible} />
+          <TimelineItem key={i} exp={exp} index={i} accent={a} sectionVisible={visible} />
         ))}
       </div>
 

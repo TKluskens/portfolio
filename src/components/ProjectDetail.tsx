@@ -2,20 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-
-// ── Theme hook ────────────────────────────────────────────────────────────────
-
-function useIsLight() {
-  const [light, setLight] = useState(false);
-  useEffect(() => {
-    const update = () => setLight(document.documentElement.classList.contains("light"));
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-    return () => obs.disconnect();
-  }, []);
-  return light;
-}
+import { useIsLight } from "@/hooks/useTheme";
 
 // Light/dark palette helpers — keep per-project accent, swap neutrals
 function palette(isLight: boolean, accentH: number, accentC: number, accentL: number) {

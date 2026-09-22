@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useAccent } from "@/hooks/useTheme";
 
 const SKILLS = [
   { name: "HTML / CSS", cat: "Frontend" },
@@ -61,7 +62,7 @@ export default function Skills() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [accent, setAccent] = useState("");
+  const a = useAccent();
 
   useEffect(() => {
     const el = ref.current;
@@ -73,17 +74,6 @@ export default function Skills() {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-
-  useEffect(() => {
-    const update = () =>
-      setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
-    return () => obs.disconnect();
-  }, []);
-
-  const a = accent || "var(--accent)";
 
   const filtered =
     activeFilter === "All"

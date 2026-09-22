@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useAccent } from "@/hooks/useTheme";
 
 const PILLARS = [
   { label: "Research Question", text: "Which web architecture — serverless, classic on-premises, or PWA — consumes the least energy when running an AI-driven application?" },
@@ -13,7 +14,7 @@ const STACK = ["Python", "Flask", "Gemma 3", "WebGPU", "Google Cloud Run", "Scap
 export default function Thesis() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const [accent, setAccent] = useState("");
+  const a = useAccent();
 
   useEffect(() => {
     const el = ref.current;
@@ -22,16 +23,6 @@ export default function Thesis() {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-
-  useEffect(() => {
-    const update = () => setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
-    return () => obs.disconnect();
-  }, []);
-
-  const a = accent || "var(--accent)";
 
   return (
     <section id="thesis" ref={ref} style={{ padding: "8rem 2rem", maxWidth: "1200px", margin: "0 auto", opacity: visible ? 1 : 0, transition: "opacity 0.8s ease" }}>

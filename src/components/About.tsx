@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useAccent } from "@/hooks/useTheme";
 
 const PILLARS = [
   { label: "Production experience, early.", text: "I first interned at Turtle Srl in Cesenatico, Italy during my final year of secondary school. They invited me back for my Bachelor's internship — both experiences put me in a real professional environment where I had to adapt quickly and deliver." },
@@ -12,14 +13,13 @@ const PILLARS = [
 const META = [
   ["Location", "Ghent, Belgium"],
   ["Languages", "NL · EN · FR"],
-  ["Current", "Turtle Srl · Internship"],
-  ["Next", "AE · Dev Consultant"],
+  ["Current", "AE · Dev Consultant"],
 ];
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const [accent, setAccent] = useState("");
+  const a = useAccent();
 
   useEffect(() => {
     const el = ref.current;
@@ -28,16 +28,6 @@ export default function About() {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-
-  useEffect(() => {
-    const update = () => setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
-    return () => obs.disconnect();
-  }, []);
-
-  const a = accent || "var(--accent)";
 
   return (
     <section id="about" ref={ref} style={{ padding: "8rem 2rem", maxWidth: "1200px", margin: "0 auto", opacity: visible ? 1 : 0, transition: "opacity 0.8s ease" }}>
@@ -51,7 +41,7 @@ export default function About() {
         {/* Left */}
         <div>
           <div style={{ marginBottom: "2rem", border: "1px solid var(--border)", overflow: "hidden", borderRadius: "4px" }}>
-            <Image src="/files/pf.png" alt="Tom Kluskens" width={600} height={600} style={{ width: "100%", height: "auto", display: "block", filter: "grayscale(15%)" }} />
+            <Image src="/files/Foto.png" alt="Tom Kluskens" width={600} height={600} style={{ width: "100%", height: "auto", display: "block", filter: "grayscale(15%)" }} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
             {META.map(([k, v]) => (
@@ -69,7 +59,7 @@ export default function About() {
             Full Stack<br />Developer
           </h3>
           <p style={{ fontSize: "1.15rem", fontWeight: 300, lineHeight: 1.75, marginBottom: "1.75rem", color: "var(--text)" }}>
-            I&apos;m a full stack developer finishing my Bachelor&apos;s in Applied IT at HoGent, with a thesis exploring AI and energy efficiency. This September, I&apos;ll be starting as a software engineer at AE.
+            I&apos;m a full stack developer with a Bachelor&apos;s in Applied IT from HoGent, including a thesis exploring AI and energy efficiency. I&apos;m currently working as a developer consultant at AE.
           </p>
           <p style={{ fontSize: "1.05rem", fontWeight: 300, lineHeight: 1.85, marginBottom: "2rem", color: "var(--muted)" }}>
             To me, engineering is about more than writing code. I care about the full picture: understanding requirements, shaping ideas, and building systems that are solid and easy to maintain. I&apos;m comfortable talking directly with clients, explaining technical concepts in plain language, and making sure the end result actually matches what the business needs.

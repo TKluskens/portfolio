@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { subscribeToThemeChange } from "@/hooks/useTheme";
+
+const CLICKABLE_SELECTOR =
+  "a, button, [role='button'], input, textarea, select, label, [tabindex], .list-card, .skill-flip-outer, [style*='cursor: pointer'], [style*='cursor:pointer']";
 
 function parseRgb(color: string) {
   const match = color.match(/\d+(\.\d+)?/g);
@@ -50,45 +54,21 @@ export default function CustomCursor() {
     };
 
     updateCursorTheme();
-    const obs = new MutationObserver(updateCursorTheme);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "style"] });
-    return () => obs.disconnect();
+    return subscribeToThemeChange(updateCursorTheme);
   }, []);
 
   useEffect(() => {
     let x = 0, y = 0;
     let cx = 0, cy = 0;
+    let scale = 0.5;
     let raf: number;
     let isPointer = false;
+    let moved = false;
 
     const onMove = (e: MouseEvent) => {
       x = e.clientX;
       y = e.clientY;
-      const el = document.elementFromPoint(x, y);
-      const clickable = el?.closest<HTMLElement>("a, button, [role='button'], input, textarea, select, label, [tabindex], .list-card, .skill-flip-outer, [style*='cursor: pointer'], [style*='cursor:pointer']");
-      const next = !!clickable;
-      if (next !== isPointer) {
-        isPointer = next;
-        if (dot.current) {
-          dot.current.style.width = isPointer ? "20px" : "10px";
-          dot.current.style.height = isPointer ? "20px" : "10px";
-          dot.current.style.marginLeft = isPointer ? "-10px" : "-5px";
-          dot.current.style.marginTop = isPointer ? "-10px" : "-5px";
-        }
-      }
-
-      if (dot.current) {
-        if (isLightRef.current) {
-          const clickableBg = clickable ? parseRgb(getComputedStyle(clickable).backgroundColor) : null;
-          const hasSolidFill = clickableBg && clickableBg.a > 0.85;
-          const nextColor = hasSolidFill && relativeLuminance(clickableBg.r, clickableBg.g, clickableBg.b) < 0.6
-            ? "#ffffff"
-            : baseColorRef.current;
-          dot.current.style.background = nextColor;
-        } else {
-          dot.current.style.background = baseColorRef.current;
-        }
-      }
+      moved = true;
     };
 
     window.addEventListener("mousemove", onMove);
@@ -96,8 +76,32 @@ export default function CustomCursor() {
     const loop = () => {
       cx += (x - cx) * 0.18;
       cy += (y - cy) * 0.18;
+
+      // Hit-testing (elementFromPoint + closest) is expensive — cap it to once
+      // per animation frame instead of running it on every raw mousemove event.
+      if (moved) {
+        moved = false;
+        const el = document.elementFromPoint(x, y);
+        const clickable = el?.closest<HTMLElement>(CLICKABLE_SELECTOR);
+        isPointer = !!clickable;
+
+        if (dot.current) {
+          if (isLightRef.current) {
+            const clickableBg = clickable ? parseRgb(getComputedStyle(clickable).backgroundColor) : null;
+            const hasSolidFill = clickableBg && clickableBg.a > 0.85;
+            const nextColor = hasSolidFill && relativeLuminance(clickableBg.r, clickableBg.g, clickableBg.b) < 0.6
+              ? "#ffffff"
+              : baseColorRef.current;
+            dot.current.style.background = nextColor;
+          } else {
+            dot.current.style.background = baseColorRef.current;
+          }
+        }
+      }
+
+      scale += ((isPointer ? 1 : 0.5) - scale) * 0.25;
       if (dot.current) {
-        dot.current.style.transform = `translate(${cx}px, ${cy}px)`;
+        dot.current.style.transform = `translate(${cx}px, ${cy}px) scale(${scale})`;
       }
       raf = requestAnimationFrame(loop);
     };
@@ -116,17 +120,17 @@ export default function CustomCursor() {
         position: "fixed",
         top: 0,
         left: 0,
-        width: 10,
-        height: 10,
-        marginLeft: -5,
-        marginTop: -5,
+        width: 20,
+        height: 20,
+        marginLeft: -10,
+        marginTop: -10,
         borderRadius: "50%",
         background: color,
         pointerEvents: "none",
         zIndex: 9999,
         willChange: "transform",
         mixBlendMode: blendMode,
-        transition: "width 0.25s ease, height 0.25s ease, margin 0.25s ease",
+        transform: "translate(0px, 0px) scale(0.5)",
       }}
     />
   );

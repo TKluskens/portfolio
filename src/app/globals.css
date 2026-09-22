@@ -28,7 +28,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   transition: background-color 0.35s ease, color 0.35s ease;
 }
 

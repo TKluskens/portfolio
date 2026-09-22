@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useAccent } from "@/hooks/useTheme";
 
 const NAV_LINKS = ["About", "Projects", "Experience", "Skills", "Thesis", "Contact"];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [accent, setAccent] = useState<string>("");
+  const a = useAccent();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
@@ -15,17 +16,6 @@ export default function Header() {
     fn();
     return () => window.removeEventListener("scroll", fn);
   }, []);
-
-  useEffect(() => {
-    const update = () =>
-      setAccent(getComputedStyle(document.documentElement).getPropertyValue("--accent").trim());
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class"] });
-    return () => obs.disconnect();
-  }, []);
-
-  const a = accent || "var(--accent)";
 
   return (
     <>
